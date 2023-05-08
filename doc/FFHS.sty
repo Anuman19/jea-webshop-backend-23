@@ -1,0 +1,386 @@
+% Suppress some warnings issued by TeXiFy plugin
+%! suppress = FigureNotReferenced
+%! suppress = NoExtension
+%! suppress = DiscouragedUseOfDef
+%! suppress = EscapeAmpersand
+%! suppress = MightBreakTexify
+%! suppress = EscapeHashOutsideCommand
+%! suppress = FileNotFound
+
+\NeedsTeXFormat{LaTeX2e}\relax
+\ProvidesClass{FFHS}[2020/01/04 v1.0 Talent Factory's FFHS Class]
+
+\RequirePackage[export]{adjustbox}
+\RequirePackage{amsmath}
+\RequirePackage{ascii}
+\RequirePackage{array}          % Extending the array and tabular environments
+\RequirePackage[ngerman]{babel} % Use german as main language
+\RequirePackage[style=ieee]{biblatex}
+\RequirePackage{booktabs}       % Publication quality tables in LaTeX
+\RequirePackage{caption}        % Customising captions in floating environments
+\RequirePackage{chngcntr}       % Change the resetting of counters
+\RequirePackage{colortbl}       % Add colour to LaTeX tables
+\RequirePackage{currfile}       % Provide file name and path of input files
+\RequirePackage{datatool}       % Tools to load and manipulate data
+\RequirePackage{enumitem}       % Control layout of itemize, enumerate, description
+\RequirePackage[%
+    lastexercise,
+    answerdelayed]{exercise}    % Typeset exercises, problems, etc. and their answers
+\RequirePackage{fancyhdr}       % Extensive control of page headers and footers
+\RequirePackage{fontspec}       % Advanced font selection in XeLaTeX and LuaLaTeX
+\RequirePackage[edges]{forest}  % Drawing (linguistic) trees
+\RequirePackage[                % Page margins
+    top=3cm,
+    bottom=3cm,
+    left=2cm,
+    right=1.5cm,
+    headsep=20pt,
+    a4paper]{geometry}
+
+\RequirePackage{graphicx}       % Enhanced support for graphics
+\RequirePackage{hyperref}       % Extensive support for hypertext in LATEX
+\hypersetup{
+    colorlinks  = true,
+    linkcolor   = black,
+    filecolor   = magenta,
+    urlcolor    = blue,
+    citecolor   = blue,
+    anchorcolor = blue,
+    pdfpagemode = FullScreen,
+}
+
+% Glossaries must be loadad after hyperref to generate hyperlinks in the document
+\RequirePackage{glossaries}     % Create glossaries and lists of acronyms
+\renewcommand{\glossarysection}[2][]{}
+
+\RequirePackage{listings}       % Typeset source code listings using LATEX
+\RequirePackage{longtable}      % Allow tables to flow over page boundaries
+\RequirePackage{makecell}       % Tabular column heads and multilined cells
+\RequirePackage{marginnote}     % Notes in the margin, even where \marginpar fails
+\RequirePackage{mathtools}      % Mathematical tools to use with amsmath
+\RequirePackage{minted}         % Highlighted source code for LaTeX
+\RequirePackage{multicol}       % Intermix single and multiple columns
+\RequirePackage{numprint}
+\RequirePackage{pdflscape}      % Make landscape pages display as landscape
+\RequirePackage{rotating}       % Rotation tools, including rotated full-page floats
+\RequirePackage{soul}           % Hyphenation for letterspacing, underlining, and more
+\RequirePackage{spreadtab}      % Spreadsheet features for LaTeX tabular environments
+\RequirePackage{longtable}      % Allow tables to flow over page boundaries
+\RequirePackage{tabularx}       % Tabulars with adjustable-width columns
+
+\RequirePackage{theorem}        % Manipulate theorem environments
+\theoremstyle{break}
+\newtheorem{Example}{Beispiel}%[section]
+
+\RequirePackage{tocloft}        % Control table of contents, figures, etc
+\tocloftpagestyle{fancy}
+
+\RequirePackage{xcolor}         % Driver-independent color extensions for LaTeX
+
+\RequirePackage[usestackEOL]{stackengine}
+\RequirePackage{multicol,multirow}
+
+\RequirePackage{csquotes}
+
+% =======================================
+% Some color definitions used in the code
+\definecolor{tfRed}       {RGB}{255,000,000}
+\definecolor{tfBlue}      {RGB}{071,100,156}
+\definecolor{tfLightBlue} {RGB}{086,193,255}
+\definecolor{tfGreen}     {RGB}{095,200,085}
+\definecolor{tfLightGray} {RGB}{211,211,211}
+
+\newcommand\key[1]{\fbox{\small#1}}
+\newcommand\cmd[1]{\colorbox{tfLightGray}{\texttt{\small#1}}}
+
+% =======================================
+\sethlcolor{yellow}
+
+\newcommand\slide[1]{%
+    \sethlcolor{red}
+    \marginnote{\hl{\##1}}
+    \sethlcolor{yellow}
+}
+
+% =======================================
+
+\renewcommand{\ExerciseHeader}{\textbf{\large
+\ExerciseName\ \ExerciseHeaderNB\ExerciseHeaderTitle \ExerciseHeaderOrigin\hfill
+\vskip1em}}
+
+% =======================================
+% Definition for images directory
+\newcommand\image[2]{%
+    \begin{figure}[!htbp]
+        \centering
+        \includegraphics[width=10cm]{images/#1.png}
+        \caption{#2}
+        \label{fig:#1}
+    \end{figure}
+}
+
+% ===================================================
+% Definitions used in tables
+\newcommand{\headcell}[1]{\cellcolor{tfBlue}\textbf{\textcolor{white}{\Gape[5pt]{\makecell{#1}}}}}
+
+% ===================================================
+% Definition for diary entries and table calculations
+\newcommand*{\float}[1]{\FPround{\diary@t}{#1}{2}\diary@t}
+
+% Define a new column type by the array package which has a
+% fixed width and centers the content.
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+% Declare and initialize some variables
+\newcommand*{\sum@soll}{0.0}
+\newcommand*{\sum@ist}{0.0}
+
+\newcommand*{\colorize}[2]{
+    \DTLifnumlt{#1}{#2}{%
+        \textcolor{tfRed}{\float{#2}}}{%
+        \DTLifnumgt{#1}{#2}{\textcolor{tfGreen}{\float{#2}}}{\float{#2}}}}
+
+\newenvironment*{diary}
+{%
+    \DTLgadd{\sum@soll}{0.0}{0.0}
+    \DTLgadd{\sum@ist}{0.0}{0.0}
+    \newcommand*{\entry}[4]{%
+        \DTLgadd{\sum@soll}{\sum@soll}{##3}
+        \DTLgadd{\sum@ist}{\sum@ist}{##4}
+        ##1 & ##2 & \float{##3} & \colorize{##3}{##4} \cr%
+        \midrule%
+    }%
+    \begin{tabular}{p{0.525\textwidth}p{0.26\textwidth}C{0.06\textwidth}C{0.06\textwidth}}
+        \multicolumn{4}{c}{\headcell{Tätigkeiten}} \\
+        \addlinespace
+        \textbf{Tätigkeit / Arbeitspaket} &
+        \textbf{Involvierte Personen} &
+        \textbf{SOLL} &
+        \textbf{IST} \\
+        \midrule%
+        }
+        {
+        \multicolumn{2}{r}{\textbf{Zeit Total:}} &
+        \float\sum@soll &
+        \colorize{\sum@soll}{\sum@ist} \\
+    \end{tabular}
+}
+
+
+% Importieren des Quellcodes
+% \importlisting{<language>}{<directory>}{<filename>}
+%
+% e.g. \importlisting{python}{../../../comment/}{admin.py}
+\newcommand{\importlisting}[3]{
+    \clearpage
+    \captionof{lstlisting}{#3\label{lst:#3}}
+    \inputminted[
+        breaklines,
+        breakanywhere,
+        frame=lines,
+        framesep=2mm,
+        fontsize=\footnotesize,
+        linenos
+    ]{#1}{#2#3}
+}
+
+\newcommand{\src}[3]{
+    \inputminted[
+        breaklines,
+        breakanywhere,
+        frame=single,
+        framesep=1mm,
+        fontsize=\footnotesize,
+        label=#3,
+        linenos
+    ]{#1}{#2#3}
+}
+% ===============================================
+
+% Used for placeholder text only
+\long\def\comment#1{\textcolor{red}{\parskip1em\textit{#1}}}
+
+% ===============================================
+% Definition used by the table of content entries
+\renewcommand*\l@section{\@dottedtocline{1}{0em}{1.8em}}
+\renewcommand*\l@subsection{\@dottedtocline{2}{1.8em}{3.0em}}
+
+\pretocmd{\chapter}{\addtocontents{toc}{\protect\addvspace{15\p@}}}{}{}
+\pretocmd{\section}{\addtocontents{toc}{\protect\addvspace{5\p@}}}{}{}
+
+% ==========
+\AtBeginDocument{%
+    \setmainfont{Verdana}
+    \DeclareGraphicsExtensions{.pdf,.jpg,.tif,.eps,.png}
+    \maketitle
+    \pagestyle{fancy}
+    \clearpage
+    \parindent0em\parskip1em}
+
+% =========================================
+% Redefine some commands used by 'book.sty'
+
+\counterwithout{section}{chapter} % Do not reset section number on chapter change
+\renewcommand \thesection {\@arabic\c@section}
+
+\renewcommand*\l@chapter[2]{%
+    \ifnum \c@tocdepth >\m@ne
+    \addpenalty{-\@highpenalty}%
+    \vskip 1.0em \@plus\p@
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+    \parindent \z@ \rightskip \@pnumwidth
+    \parfillskip -\@pnumwidth
+    \leavevmode \bfseries
+    \advance\leftskip\@tempdima
+    \hskip -\leftskip
+    #1\nobreak\hfil
+    \nobreak\hb@xt@\@pnumwidth{\hss\kern-\p@\kern\p@}\par
+    \penalty\@highpenalty
+    \endgroup
+    \fi}
+
+\renewcommand\chapter{\if@openright\cleardoublepage\else\clearpage\fi
+\global\@topnum\z@
+\@afterindentfalse
+\secdef\@chapter\@schapter}
+
+\def\@chapter[#1]#2{%
+    \ifnum \c@secnumdepth >\m@ne
+    \refstepcounter{chapter}
+    \typeout{\@chapapp\space\thechapter.}%
+    \addcontentsline{toc}{chapter}{Teil \protect\numberline{\thechapter:} #1}
+    \else
+    \addcontentsline{toc}{chapter}{#1}%
+    \fi
+    \chaptermark{#1}%
+    \addtocontents{lof}{\protect\addvspace{10\p@}}%
+    \addtocontents{lot}{\protect\addvspace{10\p@}}%
+    \if@twocolumn
+    \@topnewpage[\@makechapterhead{#2}]%
+    \else
+    \@makechapterhead{#2}%
+    \@afterheading
+    \fi}
+
+\def\@makechapterhead#1{%
+    \vspace*{50\p@}%
+    {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+    \huge\bfseries Teil \thechapter
+    \par\nobreak
+    \vskip 20\p@
+    \fi
+    \interlinepenalty\@M
+    \Huge \bfseries #1\par\nobreak
+    \vskip 40\p@}}
+
+% ==============================
+% FFHS
+\newcommand{\@dokumentTyp}{Entwurf}
+\newcommand{\dokumentTyp}[1]{\gdef\@dokumentTyp{#1}}
+
+\newcommand{\@studiengang}{INF}
+\newcommand{\studiengang}[1]{\gdef\@studiengang{#1}}
+
+\newcommand{\@wohnort}{}
+\newcommand{\wohnort}[1]{\gdef\@wohnort{#1}}
+
+\newcommand{\@referent}{}
+\newcommand{\@referent@in}{Referent:in}
+\newcommand{\referent}[1]{\gdef\@referent@in{Referent} \gdef\@referent{#1}}
+\newcommand{\referentin}[1]{\gdef\@referent@in{Referentin} \gdef\@referent{#1}}
+
+\newcommand{\@titelbild}{}
+\newcommand{\titelbild}[2][]{\gdef\@titelbild{\includegraphics[#1]{#2}}}
+
+\newcommand{\@eingereichtBei}{}
+\newcommand{\eingereichtBei}[1]{\gdef\@eingereichtBei{#1}}
+
+% ------------------------------
+
+\fancypagestyle{fancy}{
+    \fancyhf{}
+    \fancyhead[L]{\@title}
+    \fancyhead[R]{\rightmark}
+    \fancyfoot[R]{\thepage}
+}
+
+\fancypagestyle{ttlpage}{
+    \fancyhf{}
+    \fancyhead[L]{
+        \begin{varwidth}[t][2cm][c]{5cm}
+            \includegraphics[height=2cm]{images/ffhslogo}
+        \end{varwidth}
+        \hfill
+        \begin{varwidth}[t][2cm][c]{7cm}
+            \begin{flushright}
+                \normalfont
+                Fernfachhochschule Schweiz\\
+                \@studiengang
+                \vfill\phantom{.}
+            \end{flushright}
+        \end{varwidth}
+    }
+    \fancyfoot{} % get rid of footers
+    \renewcommand{\headrulewidth}{0pt} % ... andget rid of the line
+}
+% ------------------------------
+\renewcommand\maketitle{
+    \setcounter{page}{0}
+    \begin{titlepage}
+        \thispagestyle{ttlpage}
+        \markright{\protect\@titlehead}
+        \begin{center}
+            \vspace*{2cm}
+            \bfseries
+            \Huge\@title\par
+            \vspace{1ex}
+            \Large
+            \@subtitle\par
+            \vfill
+            \@titelbild\par
+            \vfill
+            \@dokumentTyp\ \@studiengang
+
+            \vspace{1ex}
+
+            von
+
+            \vspace{1ex}
+            \@author
+
+            \vspace{1cm}
+            \normalsize
+
+            \vspace{1ex}
+            \phantom{.}
+            \hfill
+            \begin{varwidth}[t]{6cm}
+                Eingereicht bei:
+
+                \vspace{0.5ex}
+                \mdseries\normalsize
+                \@eingereichtBei
+            \end{varwidth}
+            \hfill
+            \hfill
+            \begin{varwidth}[t]{6cm}
+                \@referent@in:
+
+                \vspace{0.5ex}
+                \mdseries\normalsize
+                \@referent
+            \end{varwidth}
+            \hfill
+            \phantom{.}
+
+            \vspace{5ex}
+            \@wohnort, \@date
+        \end{center}
+    \end{titlepage}
+
+    \@dedication
+}
+
+\endinput

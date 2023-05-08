@@ -1,20 +1,40 @@
-%! Author = ninaa
-%! Date = 27.03.2023
+\documentclass[a4paper,11pt] {article.cls}%{scrreprt}
+\RequirePackage{FFHS}
 
-% Preamble
-% declares the document type
-% font size 11pt
-\documentclass[11pt]{article}
-\title{Dokumentation Semesterprojekt JEA}
-\author{Nicolas Dreier, Naveen Anpalagan, Nina Aegerter}
-\date{Juni 2023}
+\dokumentTyp{Semesterarbeit}
+\studiengang{Java Enterprise Application}
 
-% Packages
-\usepackage{amsmath}
+\author{Peter Müller}
+\title{Verkauf innovativer Ideen} %
+\subtitle{Online Shop} % optional
+\titelbild[width=10cm]{images/title-image}
 
-% Document body
+\wohnort{Bernstrasse 47, 3422 Kirchberg}
+
+% \referent oder \referentin
+\referent{Daniel Senften\\Master of Science (MSc)\\Java Enterprise Edition}
+\eingereichtBei{Daniel Senften\\Master of Science (MSc)\\Dozent}
+
+\addbibresource{literature.bib} % Hinzufügen der Referenzen
+
 \begin{document}
 
-Test Document
+    \section{Aufgabenstellung}\label{sec:aufgabenstellung}
+
+    Ausgehend von der Beispielanwendung aus dem Lehrbuch entwickelt jeder Studierende einen
+    eigenen Onlineshop. Dabei bearbeitet er ein individuelles Fokus-Thema, welches er in Absprache
+    mit dem Dozenten waehlt.
+
+    Der Onlineshop, basierend auf der JavaEE\cite{jee-spec} Spezifikation muss insgesamt funktionsaehig und dokumentiert sein.
+
+    Das Hauptgewicht der Semesterarbeit liegt auf der theoretischen Behandlung, der Analyse, dem
+    Design, der Implementation und dem Test des ausgeaehlten Fokus-Themas.
+
+
+    % ==============================
+    % Anhang
+    \clearpage\appendix
+    \renewcommand{\thesection}{A}
+    \input{chapters/references}
 
 \end{document}

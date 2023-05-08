@@ -8,6 +8,8 @@ import ch.ffhs.library.library.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+
 @Service
 public class AdminServiceImpl implements AdminService {
 
@@ -28,7 +30,7 @@ public class AdminServiceImpl implements AdminService {
         admin.setLastName(adminDto.getLastName());
         admin.setUsername(adminDto.getUsername());
         admin.setPassword(adminDto.getPassword());
-        admin.setRoles();
-        return null;
+        admin.setRoles(Arrays.asList(roleRepository.findByName("ADMIN")));
+        return adminRepository.save(admin);
     }
 }
