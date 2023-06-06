@@ -10,6 +10,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * This class represents a Data Transfer Object (DTO) which is an object that is used to encapsulate data,
+ * and send it from one subsystem of an application to another.
+ */
+
 public class AdminDetails implements UserDetails {
 
     private Admin admin;
