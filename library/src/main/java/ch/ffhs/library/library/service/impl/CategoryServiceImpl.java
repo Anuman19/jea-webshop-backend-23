@@ -62,4 +62,9 @@ public class CategoryServiceImpl implements CategoryService {
         repository.save(category);
     }
 
+    @Override
+    public List<Category> findAllByActivated(){
+        return repository.findAllByActivated();
+    }
+
 }
