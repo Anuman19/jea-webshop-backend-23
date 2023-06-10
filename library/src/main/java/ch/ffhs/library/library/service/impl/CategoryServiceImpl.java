@@ -20,28 +20,37 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category save(Category category){
-        Category categorySave = new Category(category.getName());
-        return repository.save(categorySave);
+        try {
+            Category categorySave = new Category(category.getName());
+            return repository.save(categorySave);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
-    public Category getById(Long id){
-        return repository.getReferenceById(id);
+    public Category findById(Long id){
+        return repository.findById(id).get();
     }
 
     @Override
     public Category update(Category category){
-        Category categoryUpdate = new Category();
-        categoryUpdate.setName(category.getName());
-        categoryUpdate.set_activated(category.is_activated());
-        categoryUpdate.set_deleted(category.is_deleted());
+        Category categoryUpdate = null;
+        try {
+            categoryUpdate = repository.findById(category.getId()).get();
+            categoryUpdate.setName(category.getName());
+            categoryUpdate.set_activated(category.is_activated());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         return repository.save(categoryUpdate);
     }
 
     @Override
     public void deletedById(Long id){
         Category category = repository.getReferenceById(id);
-        category.set_deleted(true);
         category.set_activated(false);
         repository.save(category);
     }
@@ -50,7 +59,6 @@ public class CategoryServiceImpl implements CategoryService {
     public void enabledById(Long id){
         Category category = repository.getReferenceById(id);
         category.set_activated(true);
-        category.set_deleted(false);
         repository.save(category);
     }
 

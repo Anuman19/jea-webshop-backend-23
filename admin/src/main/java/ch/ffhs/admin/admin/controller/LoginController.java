@@ -5,6 +5,9 @@ import ch.ffhs.library.library.model.Admin;
 import ch.ffhs.library.library.service.impl.AdminServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.net.Authenticator;
 
 
 /**
@@ -48,6 +53,12 @@ public class LoginController {
     public String home(Model model){
         //will be show in browser tab (<title> tag)
         model.addAttribute("title", "Home Page");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // if there hasn't been a correct authentication process or the user is part anonymous
+        // you will return to the login page
+        if(authentication == null || authentication instanceof AnonymousAuthenticationToken){
+            return "redirect:/login";
+        }
         return "index";
     }
 
@@ -63,7 +74,6 @@ public class LoginController {
     private String addNewAdmin(@Valid @ModelAttribute("adminDto")AdminDto adminDto,
                                BindingResult result,
                                Model model){
-
         try {
             if (result.hasErrors()) {
                 model.addAttribute("adminDto", adminDto);

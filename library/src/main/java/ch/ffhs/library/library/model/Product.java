@@ -25,7 +25,6 @@ public class Product {
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private Category category;
     private int star_rating; // not in tutorial
-    private boolean is_deleted;
     private boolean is_activated;
 
 
