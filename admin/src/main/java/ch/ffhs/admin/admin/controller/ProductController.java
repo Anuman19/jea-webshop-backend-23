@@ -6,6 +6,7 @@ import ch.ffhs.library.library.model.Product;
 import ch.ffhs.library.library.service.CategoryService;
 import ch.ffhs.library.library.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class ProductController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("/product")
+    @GetMapping("/products")
     // Principal = current logged in user
     public String products(Model model, Principal principal){
         // if there isn't a user currently logged in, you will be redirected to the login page
@@ -36,6 +37,34 @@ public class ProductController {
         model.addAttribute("products", productDtoList);
         model.addAttribute("size", productDtoList.size());
         return "products";
+    }
+
+    @GetMapping("/products/{pageNo}")
+    public String productsPage(@PathVariable("pageNo") int pageNo, Model model, Principal principal){
+        if(principal == null){
+            return "redirect:/login";
+        }
+        Page<ProductDto> products = productService.pageProducts(pageNo);
+        model.addAttribute("title", "Manage Product");
+        model.addAttribute("size", products.getSize());
+        model.addAttribute("totalPages", products.getTotalPages());
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("products", products);
+        return "products";
+    }
+
+    @GetMapping("/search-result/{pageNo}")
+    public String searchProducts(@PathVariable("pageNo") int pageNo, @RequestParam("keyword") String keyword, Model model, Principal principal){
+        if(principal == null){
+            return "redirect:/login";
+        }
+        Page<ProductDto> products = productService.searchProducts(pageNo, keyword);
+        model.addAttribute("title", "Search result");
+        model.addAttribute("size", products.getSize());
+        model.addAttribute("totalPages", products.getTotalPages());
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("products", products);
+        return "result-products";
     }
 
     @GetMapping("/add-product")

@@ -6,6 +6,10 @@ import ch.ffhs.library.library.repository.ProductRepository;
 import ch.ffhs.library.library.service.ProductService;
 import ch.ffhs.library.library.utils.ImageUploader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,20 +26,8 @@ public class ProductServiceImpl implements ProductService {
     private ImageUploader imageUploader;
     @Override
     public List<ProductDto> findAll() {
-        List<ProductDto> productDtoList = new ArrayList<>();
         List<Product> products = productRepository.findAll();
-        for(Product product : products){
-            ProductDto productDto = new ProductDto();
-            productDto.setId(product.getId());
-            productDto.setName(productDto.getName());
-            productDto.setDescription(product.getDescription());
-            productDto.setPrice(product.getPrice());
-            productDto.setCurrentQuantity(product.getCurrentQuantity());
-            productDto.setCategory(product.getCategory());
-            productDto.setImage(product.getImage());
-            productDto.setActivated(product.is_activated());
-            productDtoList.add(productDto);
-        }
+        List<ProductDto> productDtoList = transfer(products);
         return productDtoList;
     }
 
@@ -112,6 +104,49 @@ public class ProductServiceImpl implements ProductService {
         productDto.setActivated(product.is_activated());
         return productDto;
 
+    }
+
+    @Override
+    public Page<ProductDto> pageProducts(int pageNo){
+        Pageable pageable = PageRequest.of(pageNo, 5);
+        List<ProductDto> products = transfer(productRepository.findAll());
+        Page<ProductDto> productPages = toPage(products, pageable);
+        return productPages;
+    }
+
+    private Page toPage(List<ProductDto> list, Pageable pageable){
+        if(pageable.getOffset() >= list.size()){
+            return Page.empty();
+        }
+        int startIndex = (int) pageable.getOffset();
+        int endIndex = ((pageable.getOffset() + pageable.getPageSize()) > list.size()) ? list.size() : (int) (pageable.getOffset() + pageable.getPageSize());
+        List subList = list.subList(startIndex, endIndex);
+        return new PageImpl(subList, pageable, list.size());
+    }
+
+    @Override
+    public Page<ProductDto> searchProducts(int pageNo, String keyword){
+        Pageable pageable = PageRequest.of(pageNo, 5);
+        List<ProductDto> productDtoList = transfer(productRepository.searchProductsList(keyword));
+        Page<ProductDto> productPages = toPage(productDtoList, pageable);
+        return productPages;
+    }
+
+    private List<ProductDto> transfer(List<Product> products){
+        List<ProductDto> productDtoList = new ArrayList<>();
+        for(Product product : products){
+            ProductDto productDto = new ProductDto();
+            productDto.setId(product.getId());
+            productDto.setName(product.getName());
+            productDto.setDescription(product.getDescription());
+            productDto.setCurrentQuantity(product.getCurrentQuantity());
+            productDto.setCategory(product.getCategory());
+            productDto.setPrice(product.getPrice());
+            productDto.setImage(product.getImage());
+            productDto.setActivated(product.is_activated());
+            productDtoList.add(productDto);
+        }
+        return productDtoList;
     }
 
 }
