@@ -1,4 +1,4 @@
-package ch.ffhs.admin.admin.config;
+package ch.ffhs.customer.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,29 +12,39 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-public class AdminConfiguration {
+public class CustomerConfiguration {
+
     @Bean
     public UserDetailsService userDetailsService(){
-        return new AdminServiceConfig();
+        return new CustomerConfigService();
     }
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(){
+    public DaoAuthenticationProvider provider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService());
         provider.setPasswordEncoder(passwordEncoder());
+        provider.setUserDetailsService(userDetailsService());
         return provider;
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.authorizeHttpRequests().requestMatchers("/*").permitAll()
-                .requestMatchers("/admin/*").hasAuthority("ADMIN").and().formLogin().loginPage("/login").loginProcessingUrl("/do-login").defaultSuccessUrl("/index").failureForwardUrl("/login?error").permitAll().and().logout().invalidateHttpSession(true).clearAuthentication(true).logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout").permitAll();
+        http.authorizeHttpRequests().requestMatchers("/*").
+                permitAll().requestMatchers("/customer/*").
+                hasAuthority("CUSTOMER").and().formLogin().loginPage("/login").
+                loginProcessingUrl("/do-login").defaultSuccessUrl("/index").
+                failureForwardUrl("/login?error").permitAll().and().
+                logout().invalidateHttpSession(true).clearAuthentication(true).
+                logoutRequestMatcher(new AntPathRequestMatcher("/logout")).
+                logoutSuccessUrl("/login?logout").permitAll();
+
         http.headers().frameOptions().sameOrigin();
-        http.authenticationProvider(daoAuthenticationProvider());
+        http.authenticationProvider(provider());
         return http.build();
     }
 

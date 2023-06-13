@@ -23,6 +23,7 @@ public class Customer {
     private String username;
     private String country;
     private String address;
+    private String password;
     @Lob
     @Column(name = "image", columnDefinition = "MEDIUMLOB")
     private String image;
