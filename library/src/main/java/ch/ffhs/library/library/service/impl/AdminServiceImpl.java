@@ -6,7 +6,6 @@ import ch.ffhs.library.library.repository.AdminRepository;
 import ch.ffhs.library.library.repository.RoleRepository;
 import ch.ffhs.library.library.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;

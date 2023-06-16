@@ -37,8 +37,8 @@ public class CustomerConfiguration {
         http.authorizeHttpRequests().requestMatchers("/*").
                 permitAll().requestMatchers("/customer/*").
                 hasAuthority("CUSTOMER").and().formLogin().loginPage("/login").
-                loginProcessingUrl("/do-login").defaultSuccessUrl("/index").
-                failureForwardUrl("/login?error").permitAll().and().
+                loginProcessingUrl("/do-login").
+                defaultSuccessUrl("/index").and().
                 logout().invalidateHttpSession(true).clearAuthentication(true).
                 logoutRequestMatcher(new AntPathRequestMatcher("/logout")).
                 logoutSuccessUrl("/login?logout").permitAll();

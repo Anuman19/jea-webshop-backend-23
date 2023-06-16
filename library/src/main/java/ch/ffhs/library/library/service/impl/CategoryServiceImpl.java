@@ -1,5 +1,6 @@
 package ch.ffhs.library.library.service.impl;
 
+import ch.ffhs.library.library.dto.CategoryDto;
 import ch.ffhs.library.library.model.Category;
 import ch.ffhs.library.library.repository.CategoryRepository;
 import ch.ffhs.library.library.service.CategoryService;
@@ -65,6 +66,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Category> findAllByActivated(){
         return repository.findAllByActivated();
+    }
+
+    @Override
+    public List<CategoryDto> getCategoryAndProduct() {
+        return repository.getCategoryAndProduct();
     }
 
 }
