@@ -1,4 +1,4 @@
-package ch.ffhs.library.library;
+package ch.ffhs.library.library.model;
 
 import ch.ffhs.library.library.model.Order;
 import ch.ffhs.library.library.model.Product;
@@ -21,7 +21,7 @@ public class OrderDetail {
     private int quantity;
     private double totalPrice;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", referencedColumnName = "order_id")
     private Order order;
 

@@ -35,6 +35,15 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findByUsername(username);
     }
 
+    @Override
+    public Customer saveCustomerInfo(Customer customer) {
+        Customer customer1 = customerRepository.findByUsername(customer.getUsername());
+        customer1.setAddress(customer.getAddress());
+        customer1.setCity(customer.getCity());
+        customer1.setCountry(customer.getCountry());
+        return customerRepository.save(customer);
+    }
+
     private CustomerDto mapperDTO(Customer customer){
         CustomerDto customerDto = new CustomerDto();
         customerDto.setFirstName(customer.getFirstName());
