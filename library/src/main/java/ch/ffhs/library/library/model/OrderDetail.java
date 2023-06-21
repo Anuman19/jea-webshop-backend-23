@@ -1,7 +1,5 @@
 package ch.ffhs.library.library.model;
 
-import ch.ffhs.library.library.model.Order;
-import ch.ffhs.library.library.model.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

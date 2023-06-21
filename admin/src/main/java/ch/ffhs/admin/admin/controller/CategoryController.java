@@ -12,13 +12,24 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.security.Principal;
 import java.util.List;
 
+/**
+ * CategoryController, which is responsible for processing requests related to categories
+ */
 @Controller
 public class CategoryController {
+    // this annotation injects the CategoryService which allows the controller
+    // to access the service to execute business logic related to categories
     @Autowired
     private CategoryService categoryService;
 
+    /**
+     * method is called when an HTTP GET request is sent to the /categories URL
+     *
+     * @param model represents the data (list with categories) which is used to pass data to the view
+     * @param principal represents the current logged-in user
+     * @return String with view's name "categories.html"
+     */
     @GetMapping("/categories")
-    // Principal = current logged in user
     public String categories(Model model, Principal principal){
         // if there isn't a user currently logged in, you will be redirected to the login page
         if(principal == null){
@@ -33,6 +44,13 @@ public class CategoryController {
         return "categories";
     }
 
+    /**
+     * method is called when an HTTP POST request is sent to the /add-category URL and will add a new category
+     *
+     * @param category object to save new category
+     * @param attributes flash attributes for forwarding success or error messages
+     * @return String with attribute or redirected URL
+     */
     @PostMapping("/add-category")
     public String add(@ModelAttribute("cateogoryNew") Category category, RedirectAttributes attributes){
         try{
@@ -44,11 +62,18 @@ public class CategoryController {
         catch (Exception e){
             e.printStackTrace();
             attributes.addFlashAttribute("failed", "Server error");
-        }
+        } // returns to /categories URL
         return "redirect:/categories";
 
     }
 
+    /**
+     * method is called when an HTTP PUT or GET request is sent to the /findById URL
+     * and is searching for a category by its ID
+     *
+     * @param id of the category
+     * @return category JSON object
+     */
     @RequestMapping(value = "/findById", method = {RequestMethod.PUT, RequestMethod.GET})
     @ResponseBody
     public Category findById(Long id){
@@ -56,9 +81,17 @@ public class CategoryController {
         return categoryService.findById(id);
     }
 
+    /**
+     * method is called when an HTTP GET request is sent to the /update-category URL
+     *
+     * @param category object to update
+     * @param attributes flash attributes for forwarding success or error messages
+     * @return String with attribute or redirected URL
+     */
     @GetMapping("/updated-category")
     public String update(Category category, RedirectAttributes attributes){
         try{
+            // updates an existing category by using the passed Category object
             categoryService.update(category);
             attributes.addFlashAttribute("success", "Updated successfully");
         }catch (DataIntegrityViolationException e){
@@ -67,10 +100,18 @@ public class CategoryController {
         }catch (Exception e){
             e.printStackTrace();
             attributes.addFlashAttribute("failed", "Server error");
-        }
+        } // returns to /categories URL
         return "redirected:/categories";
     }
 
+    /**
+     * method is called when an HTTP PUT or GET request is sent to the /deleted-category URL
+     * and deletes a category by its ID
+     *
+     * @param id of the category
+     * @param attributes flash attributes for forwarding success or error messages
+     * @return String with attribute or redirected URL
+     */
     @RequestMapping(value = "/deleted-category", method = {RequestMethod.PUT, RequestMethod.GET})
     public String delete(Long id, RedirectAttributes attributes){
         try {
@@ -83,6 +124,14 @@ public class CategoryController {
         return "redirected:/categories";
     }
 
+    /**
+     * method is called when an HTTP PUT or GET request is sent to the /enable-category URL
+     * and activates a category by its ID
+     *
+     * @param id of the category
+     * @param attributes flash attributes for forwarding success or error messages
+     * @return String with attribute or redirected URL
+     */
     @RequestMapping(value = "/enable-category", method = {RequestMethod.PUT, RequestMethod.GET})
     public String enable(Long id, RedirectAttributes attributes){
         try {
@@ -94,7 +143,4 @@ public class CategoryController {
         }
         return "redirected:/categories";
     }
-
-
-
 }

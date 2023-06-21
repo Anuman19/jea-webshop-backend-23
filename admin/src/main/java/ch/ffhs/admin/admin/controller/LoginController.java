@@ -21,48 +21,75 @@ import java.net.Authenticator;
 
 
 /**
- * This controller is created to map incoming request URL
+ * LoginController is created to map incoming URL request related to the login
+ * and is responsible for displaying the appropriate views and processing user interaction to perform
+ * the desired actions (displaying pages, saving data and redirecting)
  */
 @Controller
 public class LoginController {
-    //is used to handle GET requests
 
+    // is used to encrypt passwords
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    // injects service for administrators' management
     @Autowired
     private AdminServiceImpl adminService;
-    @GetMapping("/login")//see AdminConfiguration ... loginPage
+
+    /**
+     * method is called when an HTTP GET request is sent to the /login URL
+     *
+     * @param model represents the data which is used to pass data to the view
+     * @return String with view's name "login.html"
+     */
+    @GetMapping("/login")
     public String viewLoginPage(Model model){
         //will be show in browser tab (<title> tag)
         model.addAttribute("title", "Login");
-        //custom login before showing login page
         return "login";
     }
 
-    //used for the "Create Account" bottom on the login page
+    /**
+     * method is called when an HTTP GET request is sent to the /register URL
+     *
+     * @param model represents the data which is used to pass data to the view
+     * @return String with view's name "register.html"
+     */
     @GetMapping("/register")
     public String register(Model model){
         //will be show in browser tab (<title> tag)
         model.addAttribute("title", "Register");
+        // adds an empty AdminDto object to the model, which is used for entering registration information
         model.addAttribute("adminDto", new AdminDto());
         return "register";
     }
 
+    /**
+     * method is called when an HTTP GET request is sent to the /index URL
+     *
+     * @param model represents the data which is used to pass data to the view
+     * @return String with view's name "index.html"
+     */
     @RequestMapping("/index")
     public String home(Model model){
         //will be show in browser tab (<title> tag)
         model.addAttribute("title", "Home Page");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // if there hasn't been a correct authentication process or the user is part anonymous
-        // you will return to the login page
+        // the user will be returned to the login page
         if(authentication == null || authentication instanceof AnonymousAuthenticationToken){
             return "redirect:/login";
         }
         return "index";
     }
 
-    //if the user can't remember his password, he will be redirected to another page where he can change his password
+    /**
+     * method is called when an HTTP GET request is sent to the /forgot-password URL
+     *
+     * @param model represents the data which is used to pass data to the view
+     * @return String with view's name "forgot-password.html"
+     */
+    //if the user can't remember his password, he will be redirected to another page where he can reset his password
     @GetMapping("/forgot-password")
     public String forgotPassword(Model model){
         //will be show in browser tab (<title> tag)
@@ -70,6 +97,16 @@ public class LoginController {
         return "forgot-password";
     }
 
+    /**
+     * method is called when an HTTP POST request is sent to the /register-new URL
+     * and processes the registration request, checks the input validation and stores
+     * the new administrator in the database
+     *
+     * @param adminDto data transfer object with the admin data
+     * @param result object to save validation errors
+     * @param model represents the data which is used to pass data to the view
+     * @return String with attribute or view's name "register.html"
+     */
     @PostMapping("/register-new")
     private String addNewAdmin(@Valid @ModelAttribute("adminDto")AdminDto adminDto,
                                BindingResult result,
@@ -106,6 +143,5 @@ public class LoginController {
             model.addAttribute("errors", "Something went wrong");
         }
         return "register";
-
     }
 }

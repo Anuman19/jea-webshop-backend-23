@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "customers", uniqueConstraints = @UniqueConstraint(columnNames = {"username", "image"}))
+@Table(name = "customer", uniqueConstraints = @UniqueConstraint(columnNames = {"username", "image", "phone_number"}))
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,16 +25,21 @@ public class Customer {
     private String lastName;
     private String username;
     private String country;
+    @Column(name = "phone_number")
+    private String phoneNumber;
     private String address;
     private String password;
     @Lob
     @Column(name = "image", columnDefinition = "MEDIUMLOB")
     private String image;
-    @Column(name = "city")
-    private String city;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name= "city_id", referencedColumnName = "city_id")
+    private City city;
 
     @OneToOne(mappedBy = "customer")
     private ShoppingCart shoppingCart;
+
     @OneToMany(mappedBy = "customer")
     private List<Order> orders;
 

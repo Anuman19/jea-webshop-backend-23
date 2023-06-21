@@ -9,11 +9,7 @@ import ch.ffhs.library.library.repository.ShoppingCartRepository;
 import ch.ffhs.library.library.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
 

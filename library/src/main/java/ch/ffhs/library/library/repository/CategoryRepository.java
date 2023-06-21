@@ -15,7 +15,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     List<Category> findAllByActivated();
 
     /* Customer*/
-    // Video 15 bei Minute 15
+    // todo Video 15 bei Minute 15
     //@Query("select new ch.ffhs.library.library.dto.CategoryDto(c.id, c.name, count(p.category.id)) from Category c inner join Product p on p.category.id = c.id where c.is_activated = true")
     @Query("select new ch.ffhs.library.library.dto.CategoryDto(c.id, c.name, count(p.category.id)) from Category c inner join Product p on p.category.id = c.id where c.is_activated = true group by c.id")
     List<CategoryDto> getCategoryAndProduct();
