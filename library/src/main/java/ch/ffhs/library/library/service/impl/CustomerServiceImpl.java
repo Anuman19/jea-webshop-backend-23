@@ -8,7 +8,9 @@ import ch.ffhs.library.library.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -17,6 +19,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
+
     @Override
     public CustomerDto save(CustomerDto customerDto) {
         Customer customer = new Customer();
@@ -35,6 +38,20 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findByUsername(username);
     }
 
+    /**
+     * @return
+     */
+    @Override
+    public List<CustomerDto> findAllDto() {
+        List<Customer> customerList = customerRepository.findAll();
+        List<CustomerDto> dtoList = new ArrayList<>();
+        for (Customer c : customerList) {
+            dtoList.add(mapperDTO(c));
+        }
+
+        return dtoList;
+    }
+
     @Override
     public Customer saveCustomerInfo(Customer customer) {
         Customer customer1 = customerRepository.findByUsername(customer.getUsername());
@@ -44,7 +61,7 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.save(customer);
     }
 
-    private CustomerDto mapperDTO(Customer customer){
+    private CustomerDto mapperDTO(Customer customer) {
         CustomerDto customerDto = new CustomerDto();
         customerDto.setFirstName(customer.getFirstName());
         customerDto.setLastName(customer.getLastName());

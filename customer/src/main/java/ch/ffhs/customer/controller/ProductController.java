@@ -3,13 +3,13 @@ package ch.ffhs.customer.controller;
 import ch.ffhs.library.library.dto.CategoryDto;
 import ch.ffhs.library.library.model.Category;
 import ch.ffhs.library.library.model.Product;
+import ch.ffhs.library.library.repository.ProductRepository;
 import ch.ffhs.library.library.service.CategoryService;
 import ch.ffhs.library.library.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,7 +17,8 @@ import java.util.List;
  * ProductController is created to map incoming URL request related to the products
  * and is responsible for displaying the appropriate views
  */
-@Controller
+@RestController
+@CrossOrigin
 public class ProductController {
     // injects service for product management
     @Autowired
@@ -27,6 +28,9 @@ public class ProductController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     /**
      * method is called when an HTTP GET request is sent to the /products URL
      *
@@ -34,25 +38,21 @@ public class ProductController {
      * @return String with view's name "shop.html"
      */
     @GetMapping("/products")
-    public String products(Model model){
-        List<CategoryDto> categoryDtoList = categoryService.getCategoryAndProduct();
-        List<Product> products = productService.getAllProducts();
-        List<Product> listViewProducts = productService.listViewProducts();
-        model.addAttribute("viewProducts", listViewProducts);
-        model.addAttribute("products", products);
-        model.addAttribute("categories", categoryDtoList);
-        return "shop";
+    public List<Product> products() {
+
+
+        return productService.getAllProducts();
     }
 
     /**
      * method is called when an HTTP GET request is sent to the /find-products/{id} URL
      *
-     * @param id of the product
+     * @param id    of the product
      * @param model represents the data which is used to pass data to the view
      * @return String with view's name "product-detail.html"
      */
     @GetMapping("/find-products/{id}")
-    public String findProductById(@PathVariable("id") Long id, Model model){
+    public String findProductById(@PathVariable("id") Long id, Model model) {
         Product product = productService.getProductById(id);
         Long categoryId = product.getCategory().getId();
         List<Product> products = productService.getRelatedProducts(categoryId);
@@ -65,11 +65,11 @@ public class ProductController {
      * method is called when an HTTP GET request is sent to the /products-in-category/{id} URL
      *
      * @param categoryId for the category
-     * @param model represents the data which is used to pass data to the view
+     * @param model      represents the data which is used to pass data to the view
      * @return String with view's name "products-in-category.html"
      */
     @GetMapping("/products-in-category/{id}")
-    public String getProductsInCategory(@PathVariable("id") Long categoryId, Model model){
+    public String getProductsInCategory(@PathVariable("id") Long categoryId, Model model) {
         Category category = categoryService.findById(categoryId);
         List<CategoryDto> categoryDtoList = categoryService.getCategoryAndProduct();
         List<Product> products = productService.getProductsInCategory(categoryId);
@@ -87,7 +87,7 @@ public class ProductController {
      * @return String with view's name "filter-high-price.html"
      */
     @GetMapping("/high-price")
-    public String filterHighPrice(Model model){
+    public String filterHighPrice(Model model) {
         List<Category> categories = categoryService.findAllByActivated();
         List<CategoryDto> categoryDtoList = categoryService.getCategoryAndProduct();
         List<Product> products = productService.filterHighPrice();
@@ -105,7 +105,7 @@ public class ProductController {
      * @return String with view's name "filter-low-price.html"
      */
     @GetMapping("/low-price")
-    public String filterLowPrice(Model model){
+    public String filterLowPrice(Model model) {
         List<Category> categories = categoryService.findAllByActivated();
         List<CategoryDto> categoryDtoList = categoryService.getCategoryAndProduct();
         List<Product> products = productService.filterLowPrice();
@@ -113,5 +113,11 @@ public class ProductController {
         model.addAttribute("categories", categories);
         model.addAttribute("categoryDtoList", categoryDtoList);
         return "filter-low-price";
+    }
+
+    @PostMapping("/product")
+    public void saveProduct(@RequestBody Product product) {
+        System.out.println(product);
+        productRepository.save(product);
     }
 }

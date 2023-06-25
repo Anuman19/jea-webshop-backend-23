@@ -17,8 +17,6 @@ import java.util.List;
 @Transactional
 public class OrderService {
 
-
-
     @Value("${BASE_URL}")
     private String baseURL;
 

@@ -19,6 +19,6 @@ public class AdminController {
     public String categories(Model model){
         //will be show in browser tab (<title> tag)
         model.addAttribute("title", "Category");
-        return "categories";
+        return "categories1";
     }
 }

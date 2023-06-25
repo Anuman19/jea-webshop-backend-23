@@ -43,7 +43,7 @@ public class LoginController {
      * @return String with view's name "login.html"
      */
     @GetMapping("/login")
-    public String viewLoginPage(Model model){
+    public String viewLoginPage(Model model) {
         //will be show in browser tab (<title> tag)
         model.addAttribute("title", "Login");
         return "login";
@@ -56,7 +56,7 @@ public class LoginController {
      * @return String with view's name "register.html"
      */
     @GetMapping("/register")
-    public String register(Model model){
+    public String register(Model model) {
         //will be show in browser tab (<title> tag)
         model.addAttribute("title", "Register");
         // adds an empty AdminDto object to the model, which is used for entering registration information
@@ -71,13 +71,13 @@ public class LoginController {
      * @return String with view's name "index.html"
      */
     @RequestMapping("/index")
-    public String home(Model model){
+    public String home(Model model) {
         //will be show in browser tab (<title> tag)
         model.addAttribute("title", "Home Page");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // if there hasn't been a correct authentication process or the user is part anonymous
         // the user will be returned to the login page
-        if(authentication == null || authentication instanceof AnonymousAuthenticationToken){
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
             return "redirect:/login";
         }
         return "index";
@@ -91,7 +91,7 @@ public class LoginController {
      */
     //if the user can't remember his password, he will be redirected to another page where he can reset his password
     @GetMapping("/forgot-password")
-    public String forgotPassword(Model model){
+    public String forgotPassword(Model model) {
         //will be show in browser tab (<title> tag)
         model.addAttribute("title", "Forgot Password");
         return "forgot-password";
@@ -103,14 +103,14 @@ public class LoginController {
      * the new administrator in the database
      *
      * @param adminDto data transfer object with the admin data
-     * @param result object to save validation errors
-     * @param model represents the data which is used to pass data to the view
+     * @param result   object to save validation errors
+     * @param model    represents the data which is used to pass data to the view
      * @return String with attribute or view's name "register.html"
      */
     @PostMapping("/register-new")
-    private String addNewAdmin(@Valid @ModelAttribute("adminDto")AdminDto adminDto,
+    private String addNewAdmin(@Valid @ModelAttribute("adminDto") AdminDto adminDto,
                                BindingResult result,
-                               Model model){
+                               Model model) {
         try {
             if (result.hasErrors()) {
                 model.addAttribute("adminDto", adminDto);
@@ -138,10 +138,26 @@ public class LoginController {
                 System.out.println("password not same");
                 return "/register";
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("errors", "Something went wrong");
         }
         return "register";
+    }
+
+
+    @GetMapping("/signup")
+    public String showSignUpForm(AdminDto user) {
+        return "register";
+    }
+
+    @PostMapping("/adduser")
+    public String addUser(@Valid AdminDto user, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "register";
+        }
+
+        adminService.save(user);
+        return "redirect:/index";
     }
 }

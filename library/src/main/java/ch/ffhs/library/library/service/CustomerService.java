@@ -3,6 +3,8 @@ package ch.ffhs.library.library.service;
 import ch.ffhs.library.library.dto.CustomerDto;
 import ch.ffhs.library.library.model.Customer;
 
+import java.util.List;
+
 /**
  * The CustomerService interface thus defines the basic
  * operations required for managing customers
@@ -23,6 +25,8 @@ public interface CustomerService {
      * @return Customer object
      */
     Customer findByUsername(String username);
+
+    List<CustomerDto> findAllDto();
 
     /**
      * This method saves the information of the customer
