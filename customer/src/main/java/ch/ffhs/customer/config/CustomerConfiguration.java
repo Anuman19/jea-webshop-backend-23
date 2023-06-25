@@ -10,20 +10,42 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+/**
+ * CustomerConfiguration handels the web security for the application
+ */
 @Configuration
 @EnableWebSecurity
 public class CustomerConfiguration {
 
+    /**
+     * method defines a UserDetailsService bean and
+     * is used to call user details which are in need for the authentication
+     * of the user
+     *
+     * @return customerConfigService object
+     */
     @Bean
     public UserDetailsService userDetailsService(){
         return new CustomerConfigService();
     }
 
+    /**
+     * method defines a BCryptPasswordEncoder bean and
+     * is used to hash and validate the password
+     *
+     * @return BCryptPasswordEncoder object
+     */
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * method defines a DaoAuthenticationProvider bean which is used for
+     * the authentication with the UserDetailsService and PasswordEncoder
+     *
+     * @return DaoAuthenticationProvider object
+     */
     @Bean
     public DaoAuthenticationProvider provider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -32,6 +54,12 @@ public class CustomerConfiguration {
         return provider;
     }
 
+    /**
+     * method defines a safety filter chain for the HTTP requests
+     *
+     * @param http HttpSecurity parameter
+     * @return DaoAuthenticationProvider object
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests().requestMatchers("/*").

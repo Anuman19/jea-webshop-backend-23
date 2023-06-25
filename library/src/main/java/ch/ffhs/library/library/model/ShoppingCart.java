@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Set;
-
+/**
+ * This class represents a shopping cart
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

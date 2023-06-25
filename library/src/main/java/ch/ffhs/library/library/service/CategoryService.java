@@ -4,7 +4,10 @@ import ch.ffhs.library.library.dto.CategoryDto;
 import ch.ffhs.library.library.model.Category;
 
 import java.util.List;
-
+/**
+ * The CategoryService interface thus defines the basic
+ * operations required for managing categories
+ */
 public interface CategoryService {
     /* Admin */
     List<Category> findAll();
@@ -16,6 +19,5 @@ public interface CategoryService {
     List<Category> findAllByActivated();
 
     /* Customer */
-
     List<CategoryDto> getCategoryAndProduct();
 }

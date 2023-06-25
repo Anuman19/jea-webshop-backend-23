@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+/**
+ * This class represents order details which are needed to fulfill the order
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data

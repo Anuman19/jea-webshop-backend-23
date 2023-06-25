@@ -19,6 +19,7 @@ public class AdminConfiguration {
     /**
      * method defines a UserDetailsService bean and
      * is used to call user details which are in need for the authentication
+     * of the admin
      *
      * @return adminServiceConfig object
      */

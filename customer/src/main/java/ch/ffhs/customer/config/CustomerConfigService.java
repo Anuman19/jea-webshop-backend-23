@@ -11,9 +11,22 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.stream.Collectors;
 
+/**
+ * CustomerConfigService is used to load user details of a customer from the repository
+ */
+
 public class CustomerConfigService implements UserDetailsService {
-    @Autowired
+    // this interface is used to connect to DB and search for customer user by its username
     private CustomerRepository customerRepository;
+
+    /**
+     * method is used to load the customer user by its username and
+     * throws UsernameNotFoundException if there isn't a user with this name
+     *
+     * @param username of customer user
+     * @return UserDetails of customer user
+     * @throws UsernameNotFoundException if no user with this name exists
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Customer customer = customerRepository.findByUsername(username);

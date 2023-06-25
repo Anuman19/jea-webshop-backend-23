@@ -14,12 +14,12 @@ import java.util.List;
  * This Spring class implements the Spring Security Interface "UserDetails"
  * and provides administrator with details about the authentication and authorisation
  */
-
 public class AdminDetails implements UserDetails {
     private Admin admin;
 
     /**
-     * This method returns the administrator's authorizations.
+     * This method returns the administrator's authorizations
+     *
      * @return collection of GrantedAuthority objects which represents administrator's permission
      */
     @Override

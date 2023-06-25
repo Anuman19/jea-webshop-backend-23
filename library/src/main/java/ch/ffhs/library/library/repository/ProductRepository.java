@@ -9,9 +9,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * By using the OrderRepository, database operations such as saving,
+ * updating, deleting and querying Order objects can be easily performed
+ */
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     /* Admin */
+
     @Query("select p from Product p")
     Page<Product> pageProduct(Pageable pageable);
 
@@ -40,6 +45,4 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("select p from Product p where p.is_activated = true order by p.price asc")
     List<Product> filterLowPrice();
-
-
 }

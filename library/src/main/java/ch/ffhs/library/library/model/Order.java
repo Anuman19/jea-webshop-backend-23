@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
-
+/**
+ * This class represents an order
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data

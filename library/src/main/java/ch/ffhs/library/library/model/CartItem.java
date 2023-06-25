@@ -3,6 +3,9 @@ package ch.ffhs.library.library.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+/**
+ * This class represents a cart item
+ */
 @Getter
 @Setter
 @AllArgsConstructor

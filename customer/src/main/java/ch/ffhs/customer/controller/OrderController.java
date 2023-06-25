@@ -14,7 +14,7 @@ import java.security.Principal;
 import java.util.List;
 
 /**
- *  OrderController, which is responsible for processing requests related to orders
+ * OrderController, which is responsible for processing requests related to orders
  */
 @Controller
 public class OrderController {
@@ -29,7 +29,6 @@ public class OrderController {
 
     /**
      * method is called when an HTTP GET request is sent to the /check-out URL
-     * todo mehr schreiben
      *
      * @param model represents the data which is used to pass data to the view
      * @param principal represents the current logged-in user
@@ -40,13 +39,16 @@ public class OrderController {
         if(principal == null){
             return "redirect:/login";
         }
+        // username will be extracted from principle
         String username = principal.getName();
         Customer customer = customerService.findByUsername(username);
+        // if address, city or country are empty, user will be directed to account page
         if(customer.getAddress().trim().isEmpty()|| customer.getCity().toString().isEmpty()|| customer.getCountry().trim().isEmpty()){
             model.addAttribute("customer", customer);
             model.addAttribute("error", "You must fill out the information after the checkout");
             return "account";
         }else {
+            // customer's shopping cart will be added to the model object
             model.addAttribute("customer", customer);
             ShoppingCart cart = customer.getShoppingCart();
             model.addAttribute("cart", cart);

@@ -14,17 +14,32 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+
+/**
+ * CartController, which is responsible for processing requests related to shopping carts
+ */
 @Controller
 public class CartController {
+    // injects service for customer management
     @Autowired
     private CustomerService customerService;
 
+    // injects service for shopping cart management
     @Autowired
     private ShoppingCartService cartService;
 
+    // injects service for product management
     @Autowired
     private ProductService productService;
 
+    /**
+     * method is called when an HTTP GET request is sent to the /cart URL
+     *
+     * @param model represents the data which is used to pass data to the view
+     * @param principal represents the current logged-in user
+     * @param session HttpSession object
+     * @return String with view's name "cart.html"
+     */
     @GetMapping("/cart")
     public String cart(Model model, Principal principal, HttpSession session){
         if(principal == null){
@@ -42,6 +57,15 @@ public class CartController {
         return "cart";
     }
 
+    /**
+     * method is called when an HTTP POST request is sent to the /add-to-cart URL
+     *
+     * @param productId of the product
+     * @param quantity of the product
+     * @param principal represents the current logged-in user
+     * @param request HttpServletRequest
+     * @return String with redirected pages
+     */
     @PostMapping("/add-to-cart")
     public String addItemToCart(@RequestParam("id") Long productId,
                                 @RequestParam(value = "quantity", required = false, defaultValue = "1") int quantity,
@@ -57,6 +81,15 @@ public class CartController {
         return "redirect:" + request.getHeader("Referer");
     }
 
+    /**
+     * method is called when an HTTP POST request is sent to the /add-to-cart URL
+     *
+     * @param quantity of the product
+     * @param productId of the product
+     * @param model represents the data which is used to pass data to the view
+     * @param principal represents the current logged-in user
+     * @return String with redirected pages
+     */
     @RequestMapping(value = "/update-cart", method = RequestMethod.POST, params = "action=update")
     public String updateCart(@RequestParam("quantity") int quantity,
                              @RequestParam("id") Long productId,
@@ -74,6 +107,14 @@ public class CartController {
         }
     }
 
+    /**
+     * method is called when an HTTP POST request is sent to the /delete-cart URL
+     *
+     * @param productId of the product
+     * @param model represents the data which is used to pass data to the view
+     * @param principal represents the current logged-in user
+     * @return String with redirected pages
+     */
     @RequestMapping(value = "/delete-cart", method = RequestMethod.POST, params = "action=delete")
     public String deleteItemFormCart(@RequestParam("id") Long productId,
                              Model model, Principal principal){

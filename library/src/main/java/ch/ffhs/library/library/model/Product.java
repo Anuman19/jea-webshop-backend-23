@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * This class represents a product
+ */
 @Data @NoArgsConstructor @AllArgsConstructor
 @Entity
 @Table(name = "products", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "image"}))

@@ -11,7 +11,7 @@ import java.nio.file.StandardCopyOption;
 
 @Component
 public class ImageUploader {
-    // muss noch anders gehandelt werden
+    // todo muss noch anders gehandelt werden
     private final String UPLOAD_FOLDER = "C:\\Users\\ninaa\\IdeaProjects\\jea_semesterprojekt_gruppea\\admin\\src\\main\\resources\\static\\img\\image-product";
 
     public boolean uploadImage(MultipartFile imageProduct){
@@ -34,6 +34,6 @@ public class ImageUploader {
         }catch (Exception e){
             e.printStackTrace();
         }
-        return false; // noch wechseln
+        return false; // todo noch wechseln
     }
 }
