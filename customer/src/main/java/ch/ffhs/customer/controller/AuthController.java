@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 /**
  * AuthController, which is responsible for processing requests related to the authentication
  */
-@Controller
+@RestController
 public class AuthController {
 
     // injects service for customer's management

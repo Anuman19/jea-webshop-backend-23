@@ -18,7 +18,7 @@ import java.security.Principal;
 /**
  * CartController, which is responsible for processing requests related to shopping carts
  */
-@Controller
+@RestController
 public class CartController {
     // injects service for customer management
     @Autowired

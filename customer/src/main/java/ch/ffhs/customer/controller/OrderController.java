@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * OrderController, which is responsible for processing requests related to orders
  */
-@Controller
+@RestController
 public class OrderController {
     // this annotation injects the CustomerService which allows the controller
     // to access the service to execute business logic related to customers
@@ -36,9 +37,9 @@ public class OrderController {
      */
     @GetMapping("/check-out")
     public String checkout(Model model, Principal principal){
-        if(principal == null){
+        /**if(principal == null){
             return "redirect:/login";
-        }
+        }**/
         // username will be extracted from principle
         String username = principal.getName();
         Customer customer = customerService.findByUsername(username);
@@ -65,9 +66,9 @@ public class OrderController {
      */
     @GetMapping("/order")
     public String order(Principal principal, Model model){
-        if(principal == null){
+        /**if(principal == null){
             return "redirect:/login";
-        }
+        }**/
         String username = principal.getName();
         Customer customer = customerService.findByUsername(username);
         List<Order> orderList = customer.getOrders();
@@ -84,9 +85,9 @@ public class OrderController {
      */
     @GetMapping("/save-order")
     public String saveOrder(Principal principal){
-        if(principal == null){
+        /**if(principal == null){
             return "redirect:/login";
-        }
+        }**/
         String username = principal.getName();
         Customer customer = customerService.findByUsername(username);
         ShoppingCart cart = customer.getShoppingCart();

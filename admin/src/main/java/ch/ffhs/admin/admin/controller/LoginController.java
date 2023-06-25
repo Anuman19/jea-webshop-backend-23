@@ -12,10 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.Authenticator;
 
@@ -25,7 +22,7 @@ import java.net.Authenticator;
  * and is responsible for displaying the appropriate views and processing user interaction to perform
  * the desired actions (displaying pages, saving data and redirecting)
  */
-@Controller
+@RestController
 public class LoginController {
 
     // is used to encrypt passwords
@@ -45,7 +42,6 @@ public class LoginController {
     @GetMapping("/login")
     public String viewLoginPage(Model model) {
         //will be show in browser tab (<title> tag)
-        model.addAttribute("title", "Login");
         return "login";
     }
 

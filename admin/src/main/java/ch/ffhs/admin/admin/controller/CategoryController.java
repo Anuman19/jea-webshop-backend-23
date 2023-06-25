@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * CategoryController, which is responsible for processing requests related to categories
  */
-@Controller
+@RestController
 public class CategoryController {
     // this annotation injects the CategoryService which allows the controller
     // to access the service to execute business logic related to categories
@@ -32,9 +32,9 @@ public class CategoryController {
     @GetMapping("/categories")
     public String categories(Model model, Principal principal){
         // if there isn't a user currently logged in, you will be redirected to the login page
-        if(principal == null){
+        /**if(principal == null){
             return "redirect:/login";
-        }
+        }**/
         List<Category> categoryList = categoryService.findAll();
         model.addAttribute("categories", categoryList);
         model.addAttribute("size", categoryList.size());

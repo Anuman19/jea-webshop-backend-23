@@ -20,7 +20,7 @@ import java.util.List;
  * and is responsible for displaying the appropriate views
  *
  */
-@Controller
+@RestController
 public class ProductController {
     // injects service for product management
     @Autowired
@@ -41,9 +41,9 @@ public class ProductController {
     @GetMapping("/products")
     public String products(Model model, Principal principal){
         // if there isn't a user currently logged in, you will be redirected to the login page
-        if(principal == null){
+        /**if(principal == null){
             return "redirect:/login";
-        }
+        }**/
         List<ProductDto> productDtoList = productService.findAll();
         //will be show in browser tab (<title> tag)
         model.addAttribute("title", "Manage Product");
@@ -62,9 +62,9 @@ public class ProductController {
      */
     @GetMapping("/products/{pageNo}")
     public String productsPage(@PathVariable("pageNo") int pageNo, Model model, Principal principal){
-        if(principal == null){
+        /**if(principal == null){
             return "redirect:/login";
-        }
+        }**/
         Page<ProductDto> products = productService.pageProducts(pageNo);
         //will be shown in browser tab (<title> tag)
         model.addAttribute("title", "Manage Product");
@@ -86,9 +86,9 @@ public class ProductController {
      */
     @GetMapping("/search-result/{pageNo}")
     public String searchProducts(@PathVariable("pageNo") int pageNo, @RequestParam("keyword") String keyword, Model model, Principal principal){
-        if(principal == null){
+        /**if(principal == null){
             return "redirect:/login";
-        }
+        }**/
         Page<ProductDto> products = productService.searchProducts(pageNo, keyword);
         //will be shown in browser tab (<title> tag)
         model.addAttribute("title", "Search result");
@@ -108,9 +108,9 @@ public class ProductController {
      */
     @GetMapping("/add-product")
     public String addProductForm(Model model, Principal principal){
-        if(principal == null){
+        /**if(principal == null){
             return "redirect:/login";
-        }
+        }**/
         List<Category> categories = categoryService.findAllByActivated();
         model.addAttribute("categories", categories);
         // adds an empty AdminDto object to the model, which is used for entering product information
@@ -153,9 +153,9 @@ public class ProductController {
      */
     @GetMapping("/update-product/{id}")
     public String updateProductForm(@PathVariable("id") Long id, Model model, Principal principal){
-        if(principal == null){
+       /** if(principal == null){
             return "redirect:/login";
-        }
+        }**/
         //will be shown in browser tab (<title> tag)
         model.addAttribute("title", "Update products");
         List<Category> categories = categoryService.findAllByActivated();
