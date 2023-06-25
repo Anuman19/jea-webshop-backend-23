@@ -15,7 +15,7 @@ public class AdminController {
      * @param model represents the data which is used to pass data to the view
      * @return String with view's name "categories.html"
      */
-    @GetMapping("/categories")
+    @GetMapping("/categories1")
     public String categories(Model model){
         //will be show in browser tab (<title> tag)
         model.addAttribute("title", "Category");

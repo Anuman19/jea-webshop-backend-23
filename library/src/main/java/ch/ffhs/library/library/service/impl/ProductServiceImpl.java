@@ -34,17 +34,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product save(MultipartFile imageProduct, ProductDto productDto) {
+    public Product save (ProductDto productDto) {
         try{
             Product product = new Product();
-            if(imageProduct == null){
-                product.setImage(null);
-            }else {
-                if(imageUploader.uploadImage(imageProduct)){
-                    System.out.println("Uploaded successfully");
-                }
-                product.setImage(Base64.getEncoder().encodeToString(imageProduct.getBytes()));
-            }
             product.setName(productDto.getName());
             product.setDescription(productDto.getDescription());
             product.setCategory(productDto.getCategory());
@@ -59,19 +51,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product update(MultipartFile imageProduct, ProductDto productDto) {
+    public Product update(ProductDto productDto) {
             try{
                 Product product = productRepository.getReferenceById(productDto.getId());
-                if(imageProduct == null){
-                    product.setImage(null);
-                }else {
-                    if(imageUploader.checkExisted(imageProduct) == false){
-                        System.out.println("Uploaded to folder");
-                        imageUploader.uploadImage(imageProduct);
-                    }
-                    System.out.println("Image exists");
-                    product.setImage(Base64.getEncoder().encodeToString(imageProduct.getBytes()));
-                }
+
             product.setName(productDto.getName());
             product.setDescription(productDto.getDescription());
             product.setCategory(productDto.getCategory());

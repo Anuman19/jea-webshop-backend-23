@@ -132,7 +132,7 @@ public class ProductController {
                               @RequestParam("imageProduct")MultipartFile imageProduct,
                               RedirectAttributes attributes){
         try{
-            productService.save(imageProduct, productDto);
+            productService.save( productDto);
             attributes.addFlashAttribute("success", "Added successfully");
 
         }catch (Exception e){
@@ -181,7 +181,7 @@ public class ProductController {
                                  RedirectAttributes attributes){
         try {
             // updates an existing product by using the passed product object
-            productService.update(imageProduct, productDto);
+            productService.update(productDto);
             attributes.addFlashAttribute("success", "Update successfully!");
 
         }catch (Exception e){

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
  */
 @Data @NoArgsConstructor @AllArgsConstructor
 @Entity
-@Table(name = "products", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "image"}))
+@Table(name = "products", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
 
 public class Product {
     @Id
@@ -21,8 +21,6 @@ public class Product {
     private String description;
     private double price;
     private int currentQuantity;
-    @Lob
-    @Column(columnDefinition = "MEDIUMLOB")
     private String image;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")

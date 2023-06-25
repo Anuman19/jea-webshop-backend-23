@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "customer", uniqueConstraints = @UniqueConstraint(columnNames = {"username", "image", "phone_number"}))
+@Table(name = "customers", uniqueConstraints = @UniqueConstraint(columnNames = {"username", "phone_number"}))
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,9 +31,6 @@ public class Customer {
     private String phoneNumber;
     private String address;
     private String password;
-    @Lob
-    @Column(name = "image", columnDefinition = "MEDIUMLOB")
-    private String image;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name= "city_id", referencedColumnName = "city_id")

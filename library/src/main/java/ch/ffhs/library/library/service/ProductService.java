@@ -14,8 +14,8 @@ import java.util.List;
 public interface ProductService {
     /* Admin */
     List<ProductDto> findAll();
-    Product save(MultipartFile imageProduct, ProductDto product);
-    Product update(MultipartFile imageProduct, ProductDto product);
+    Product save(ProductDto product);
+    Product update(ProductDto product);
     void enableById(Long id);
     ProductDto getById(Long id);
 
