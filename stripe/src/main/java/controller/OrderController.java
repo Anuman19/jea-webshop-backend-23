@@ -1,7 +1,7 @@
 package controller;
 
 
-
+/*
 import java.util.List;
 
 import com.example.stripe.dto.CheckoutItemDto;
@@ -23,9 +23,12 @@ import service.OrderService;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/order")
+ */
+
+//@RestController
+//@RequestMapping("/order")
 public class OrderController {
+    /*
     @Autowired
     private OrderService orderService;
 
@@ -40,4 +43,6 @@ public class OrderController {
         return new ResponseEntity<>(stripeResponse, HttpStatus.OK);
     }
 
+
+     */
 }

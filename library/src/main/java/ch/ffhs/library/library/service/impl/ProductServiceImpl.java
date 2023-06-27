@@ -161,17 +161,4 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.getProductsInCategory(categoryId);
     }
 
-    @Override
-    public List<Product> filterHighPrice() {
-        return productRepository.filterHighPrice();
-    }
-
-    @Override
-    public List<Product> filterLowPrice() {
-        return productRepository.filterLowPrice();
-    }
-
-
-
-
 }

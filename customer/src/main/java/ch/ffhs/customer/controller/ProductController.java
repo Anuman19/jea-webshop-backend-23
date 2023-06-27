@@ -34,12 +34,10 @@ public class ProductController {
     /**
      * method is called when an HTTP GET request is sent to the /products URL
      *
-     * @param model represents the data (list with categories and products) which is used to pass data to the view
      * @return String with view's name "shop.html"
      */
     @GetMapping("/products")
     public List<Product> products() {
-
 
         return productService.getAllProducts();
     }
@@ -79,41 +77,6 @@ public class ProductController {
         return "products-in-category";
     }
 
-    /**
-     * method is called when an HTTP GET request is sent to the /high-price URL
-     * and is used as a filter for high prices
-     *
-     * @param model represents the data which is used to pass data to the view
-     * @return String with view's name "filter-high-price.html"
-     */
-    @GetMapping("/high-price")
-    public String filterHighPrice(Model model) {
-        List<Category> categories = categoryService.findAllByActivated();
-        List<CategoryDto> categoryDtoList = categoryService.getCategoryAndProduct();
-        List<Product> products = productService.filterHighPrice();
-        model.addAttribute("categoryDtoList", categoryDtoList);
-        model.addAttribute("products", products);
-        model.addAttribute("categories", categories);
-        return "filter-high-price";
-    }
-
-    /**
-     * method is called when an HTTP GET request is sent to the /low-price URL
-     * and is used as a filter for low prices
-     *
-     * @param model represents the data which is used to pass data to the view
-     * @return String with view's name "filter-low-price.html"
-     */
-    @GetMapping("/low-price")
-    public String filterLowPrice(Model model) {
-        List<Category> categories = categoryService.findAllByActivated();
-        List<CategoryDto> categoryDtoList = categoryService.getCategoryAndProduct();
-        List<Product> products = productService.filterLowPrice();
-        model.addAttribute("products", products);
-        model.addAttribute("categories", categories);
-        model.addAttribute("categoryDtoList", categoryDtoList);
-        return "filter-low-price";
-    }
 
     @PostMapping("/product")
     public void saveProduct(@RequestBody Product product) {

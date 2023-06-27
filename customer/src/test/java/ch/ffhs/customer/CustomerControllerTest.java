@@ -39,7 +39,7 @@ class CustomerControllerTest {
     @InjectMocks
     private AccountController accountController;
 
-    @Autowired
+    //@Autowired
     private MockMvc mockMvc;
 
     @BeforeEach

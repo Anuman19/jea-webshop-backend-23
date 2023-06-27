@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "admins")
+@Table(name = "admins",  uniqueConstraints = @UniqueConstraint(columnNames = {"email","username"} ))
 
 public class Admin {
     @Id
@@ -24,10 +24,8 @@ public class Admin {
     private String firstName;
     private String lastName;
     private String username;
+    private String email;
     private String password;
-    @Lob
-    @Column(columnDefinition = "BYTEA")
-    private String image;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "admins_roles", joinColumns = @JoinColumn(name = "admin_id", referencedColumnName = "admin_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))

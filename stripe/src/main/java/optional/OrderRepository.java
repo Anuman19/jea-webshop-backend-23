@@ -1,4 +1,4 @@
-package ch.ffhs.library.library.repository;
+package optional;
 
 import ch.ffhs.library.library.model.Order;
 import org.springframework.data.jpa.repository.JpaRepository;

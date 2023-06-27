@@ -10,12 +10,13 @@ import lombok.NoArgsConstructor;
  */
 @Data @NoArgsConstructor @AllArgsConstructor
 public class AdminDto {
-    @Size(min = 3, max = 12, message = "Invalid first name! (3-12 characters")
+    @Size(min = 1, max = 30, message = "Invalid first name! (1-30 characters")
     private String firstName;
-    @Size(min = 3, max = 12, message = "Invalid last name! (3-12 characters")
+    @Size(min = 1, max = 50, message = "Invalid last name! (1-50 characters")
     private String lastName;
-    private String username;
-    @Size(min = 12, max = 20, message = "Invalid password! (12-20 characters")
+    @Size(min = 1, max = 50, message = "Invalid username! (1-50 characters")
+    private String username; //todo
+    private String email;
+    @Size(min = 8, max = 30, message = "Invalid password! (8-30 characters")
     private String password;
-    private String repeatPassword;
 }

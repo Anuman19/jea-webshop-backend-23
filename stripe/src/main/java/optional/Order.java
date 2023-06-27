@@ -1,4 +1,4 @@
-package ch.ffhs.library.library.model;
+package optional;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

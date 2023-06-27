@@ -1,13 +1,11 @@
-package ch.ffhs.library.library.service.impl;
+package optional;
 
+/*
 import ch.ffhs.library.library.model.OrderDetail;
-import ch.ffhs.library.library.model.CartItem;
 import ch.ffhs.library.library.model.Order;
 import ch.ffhs.library.library.model.ShoppingCart;
-import ch.ffhs.library.library.repository.CartItemRepository;
 import ch.ffhs.library.library.repository.OrderDetailRepository;
 import ch.ffhs.library.library.repository.OrderRepository;
-import ch.ffhs.library.library.repository.ShoppingCartRepository;
 import ch.ffhs.library.library.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +15,11 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
-@Service
-public class OrderServiceImpl implements OrderService {
+ */
+
+//@Service
+public class OrderServiceImpl{ //implements OrderService {
+    /*
     @Autowired
     private OrderDetailRepository orderDetailRepository;
 
@@ -64,4 +65,6 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderStatus("SHIPPING");
         orderRepository.save(order);
     }
+
+     */
 }

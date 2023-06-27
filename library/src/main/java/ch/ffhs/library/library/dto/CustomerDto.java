@@ -13,16 +13,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerDto {
-    @Size(min = 3, max = 15, message = "First name should have 3-15 characters")
+    @Size(min = 1, max = 30, message = "First name should have 1-30 characters")
     private String firstName;
-    @Size(min = 3, max = 15, message = "Last name should have 3-15 characters")
+    @Size(min = 1, max = 50, message = "Last name should have 1-50 characters")
     private String lastName;
+    @Size(min = 1, max = 50, message = "Last name should have 1-50 characters")
     private String username;
-
-    @Size(min = 8, max = 20, message = "Password should have 8-20 characters")
+    private String email; //todo
+    @Size(min = 8, max = 30, message = "Password should have 8-30 characters")
     private String password;
-
-    private String repeatPassword;
-
 
 }

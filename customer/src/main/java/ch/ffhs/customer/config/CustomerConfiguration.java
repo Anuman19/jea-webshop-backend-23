@@ -71,6 +71,8 @@ public class CustomerConfiguration {
          logoutRequestMatcher(new AntPathRequestMatcher("/logout")).
          logoutSuccessUrl("/login?logout").permitAll();**/
 
+        //todo swagger nicht redirect
+
         http.headers().frameOptions().sameOrigin();
         http.authenticationProvider(provider());
         return http.build();

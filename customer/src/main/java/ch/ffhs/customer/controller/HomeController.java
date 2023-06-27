@@ -3,7 +3,6 @@ package ch.ffhs.customer.controller;
 import ch.ffhs.library.library.dto.ProductDto;
 import ch.ffhs.library.library.model.Category;
 import ch.ffhs.library.library.model.Customer;
-import ch.ffhs.library.library.model.ShoppingCart;
 import ch.ffhs.library.library.service.CategoryService;
 import ch.ffhs.library.library.service.CustomerService;
 import ch.ffhs.library.library.service.ProductService;
@@ -48,8 +47,7 @@ public class HomeController {
         if(principal != null){
             session.setAttribute("username", principal.getName());
             Customer customer = customerService.findByUsername(principal.getName());
-            ShoppingCart cart = customer.getShoppingCart();
-            session.setAttribute("totalItems", cart.getTotalItems());
+
         } else {
             session.removeAttribute("username");
         }

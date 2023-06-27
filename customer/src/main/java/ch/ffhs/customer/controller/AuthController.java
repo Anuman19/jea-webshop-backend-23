@@ -72,15 +72,6 @@ public class AuthController {
                 model.addAttribute("customerDto", customerDto);
                 return "regsiter";
             }
-                if(customerDto.getPassword().equals(customerDto.getRepeatPassword())){
-                    customerDto.setPassword(passwordEncoder.encode(customerDto.getPassword()));
-                    customerService.save(customerDto);
-                    model.addAttribute("success", "Registered successfully");
-                } else{
-                    attributes.addFlashAttribute("password", "Password is not the same");
-                    model.addAttribute("password", "Password is not the same");
-                    model.addAttribute("customerDto", customerDto);
-                }
             return "register";
         }catch (Exception e){
             attributes.addFlashAttribute("error", "Server has som problems");

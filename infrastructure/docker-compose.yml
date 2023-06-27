@@ -18,4 +18,4 @@ services:
       # we share the folder `db-data` in our root repository, with the default PostgreSQL data path
       - ./postgres-data:/var/lib/postgresql/data
       # copy the sql script to create tables
-      - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      #- ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql

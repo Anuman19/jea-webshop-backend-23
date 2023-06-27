@@ -39,7 +39,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     /**
-     * @return
+     * @return todo
      */
     @Override
     public List<CustomerDto> findAllDto() {
@@ -50,15 +50,6 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         return dtoList;
-    }
-
-    @Override
-    public Customer saveCustomerInfo(Customer customer) {
-        Customer customer1 = customerRepository.findByUsername(customer.getUsername());
-        customer1.setAddress(customer.getAddress());
-        customer1.setCity(customer.getCity());
-        customer1.setCountry(customer.getCountry());
-        return customerRepository.save(customer);
     }
 
     private CustomerDto mapperDTO(Customer customer) {

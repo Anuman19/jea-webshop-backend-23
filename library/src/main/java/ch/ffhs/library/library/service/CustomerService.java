@@ -27,12 +27,4 @@ public interface CustomerService {
     Customer findByUsername(String username);
 
     List<CustomerDto> findAllDto();
-
-    /**
-     * This method saves the information of the customer
-     *
-     * @param customer object
-     * @return Customer object
-     */
-    Customer saveCustomerInfo(Customer customer);
 }
