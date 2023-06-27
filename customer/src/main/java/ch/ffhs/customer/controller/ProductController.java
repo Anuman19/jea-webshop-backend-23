@@ -1,12 +1,15 @@
 package ch.ffhs.customer.controller;
 
 import ch.ffhs.library.library.dto.CategoryDto;
+import ch.ffhs.library.library.dto.ProductDto;
 import ch.ffhs.library.library.model.Category;
 import ch.ffhs.library.library.model.Product;
 import ch.ffhs.library.library.repository.ProductRepository;
 import ch.ffhs.library.library.service.CategoryService;
 import ch.ffhs.library.library.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -79,8 +82,7 @@ public class ProductController {
 
 
     @PostMapping("/product")
-    public void saveProduct(@RequestBody Product product) {
-        System.out.println(product);
-        productRepository.save(product);
+    public ResponseEntity<ProductDto> saveProduct(@RequestBody ProductDto product) {
+        return new ResponseEntity<>(productService.save(product), HttpStatus.CREATED);
     }
 }

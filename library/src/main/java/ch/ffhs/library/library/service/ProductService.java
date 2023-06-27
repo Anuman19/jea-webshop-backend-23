@@ -14,9 +14,13 @@ import java.util.List;
 public interface ProductService {
     /* Admin */
     List<ProductDto> findAll();
-    Product save(ProductDto product);
+
+    ProductDto save(ProductDto product);
+
     Product update(ProductDto product);
+
     void enableById(Long id);
+
     ProductDto getById(Long id);
 
     Page<ProductDto> pageProducts(int pageNo);
