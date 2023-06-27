@@ -40,9 +40,9 @@ public class ProductController {
      * @return String with view's name "shop.html"
      */
     @GetMapping("/products")
-    public List<Product> products() {
+    public ResponseEntity<List<ProductDto>> products() {
 
-        return productService.getAllProducts();
+        return new ResponseEntity<>(productService.findAll(), HttpStatus.OK);
     }
 
     /**
@@ -52,14 +52,10 @@ public class ProductController {
      * @param model represents the data which is used to pass data to the view
      * @return String with view's name "product-detail.html"
      */
-    @GetMapping("/find-products/{id}")
-    public String findProductById(@PathVariable("id") Long id, Model model) {
-        Product product = productService.getProductById(id);
-        Long categoryId = product.getCategory().getId();
-        List<Product> products = productService.getRelatedProducts(categoryId);
-        model.addAttribute("product", product);
-        model.addAttribute("products", products);
-        return "product-detail";
+    @GetMapping("/products/{id}")
+    public ResponseEntity<ProductDto> findProductById(@PathVariable("id") Long id) {
+
+        return new ResponseEntity<>(productService.getById(id), HttpStatus.OK);
     }
 
     /**
