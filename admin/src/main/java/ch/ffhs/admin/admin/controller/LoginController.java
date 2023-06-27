@@ -1,10 +1,13 @@
 package ch.ffhs.admin.admin.controller;
 
 import ch.ffhs.library.library.dto.AdminDto;
+import ch.ffhs.library.library.dto.LoginDto;
 import ch.ffhs.library.library.model.Admin;
 import ch.ffhs.library.library.service.impl.AdminServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,10 +42,19 @@ public class LoginController {
      * @param model represents the data which is used to pass data to the view
      * @return String with view's name "login.html"
      */
-    @GetMapping("/login")
-    public String viewLoginPage(Model model) {
-        //will be show in browser tab (<title> tag)
-        return "login";
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
+        Admin admin = adminService.findByEmail(loginDto.getEmail());
+        System.out.println(admin.getPassword());
+        if (admin == null) {
+            return new ResponseEntity<>("no such user", HttpStatus.FORBIDDEN);
+        } else {
+            if (admin.getPassword().equals(loginDto.getPassword())) {
+                return new ResponseEntity<>(admin.toString(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("password not matching", HttpStatus.FORBIDDEN);
+            }
+        }
     }
 
     /**
@@ -51,13 +63,10 @@ public class LoginController {
      * @param model represents the data which is used to pass data to the view
      * @return String with view's name "register.html"
      */
-    @GetMapping("/register")
-    public String register(Model model) {
-        //will be show in browser tab (<title> tag)
-        model.addAttribute("title", "Register");
-        // adds an empty AdminDto object to the model, which is used for entering registration information
-        model.addAttribute("adminDto", new AdminDto());
-        return "register";
+    @PostMapping("/register")
+    public ResponseEntity<Admin> register(AdminDto adminDto) {
+
+        return new ResponseEntity<>(adminService.save(adminDto), HttpStatus.CREATED);
     }
 
     /**
@@ -103,42 +112,31 @@ public class LoginController {
      * @param model    represents the data which is used to pass data to the view
      * @return String with attribute or view's name "register.html"
      */
-    @PostMapping("/register-new")
-    private String addNewAdmin(@Valid @ModelAttribute("adminDto") AdminDto adminDto,
-                               BindingResult result,
-                               Model model) {
+    @PostMapping("/register-old")
+    public ResponseEntity<String> addNewAdmin(@Valid @ModelAttribute("adminDto") AdminDto adminDto,
+                                              BindingResult result) {
+        System.out.println(result);
         try {
             if (result.hasErrors()) {
-                model.addAttribute("adminDto", adminDto);
-                result.toString();
-                return "register";
+
+                return new ResponseEntity<>(result.getAllErrors().toString(), HttpStatus.BAD_REQUEST);
             }
             String username = adminDto.getUsername();
             Admin admin = adminService.findByUsername(username);
             if (admin != null) {
-                model.addAttribute("adminDto", adminDto);
-                System.out.println("admin not null");
-                model.addAttribute("mailError", "Your email has been registered");
-                return "register";
+                return new ResponseEntity<>("Already exists!", HttpStatus.CONFLICT);
             }
-            if (adminDto.getPassword().equals(adminDto.getRepeatPassword())) {
+            if (adminDto.getPassword() != null) {
                 adminDto.setPassword(passwordEncoder.encode(adminDto.getPassword()));
-                adminService.save(adminDto);
-                System.out.println("success");
-                model.addAttribute("success", "Register successfully");
-                model.addAttribute("adminDto", adminDto);
+                return new ResponseEntity<>(adminService.save(adminDto).toString(), HttpStatus.CREATED);
             } else {
-                // if the repeated password isn't identical -> redirect to register page
-                model.addAttribute("passwordError", "Your password maybe wrong, please check again");
-                model.addAttribute("adminDto", adminDto);
-                System.out.println("password not same");
-                return "/register";
+
+                return new ResponseEntity<>("Password is empty!", HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            model.addAttribute("errors", "Something went wrong");
         }
-        return "register";
+        return new ResponseEntity<>("Oops", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 

@@ -113,7 +113,7 @@ class ProductControllerTest {
 
         when(productService.save(any())).thenReturn(product);
         mockMvc.perform(post("/product").contentType(MediaType.APPLICATION_JSON).content(asJsonString(product))).andDo(print()).andExpect(status().isCreated());
-        ;
+
         verify(productService).save(any());
         verify(productService, times(1)).save(any());
     }

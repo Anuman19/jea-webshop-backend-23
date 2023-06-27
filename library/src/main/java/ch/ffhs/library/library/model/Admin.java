@@ -14,13 +14,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "admins",  uniqueConstraints = @UniqueConstraint(columnNames = {"email","username"} ))
+@Table(name = "admins", uniqueConstraints = @UniqueConstraint(columnNames = {"email", "username"}))
 
 public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "admin_id")
     private Long id;
+
     private String firstName;
     private String lastName;
     private String username;
