@@ -75,6 +75,7 @@ public class CustomerConfiguration {
 
         http.headers().frameOptions().sameOrigin();
         http.authenticationProvider(provider());
+        http.csrf((csrf) -> csrf.disable());
         return http.build();
     }
 
