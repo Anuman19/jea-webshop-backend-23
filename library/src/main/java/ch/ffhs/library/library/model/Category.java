@@ -20,11 +20,11 @@ public class Category {
     @Column(name = "category_id")
     private Long id;
     private String name;
-    private boolean is_activated;
+    private boolean activated;
 
     public Category(String name){
         this.name = name;
-        this.is_activated = true;
+        this.activated = true;
     }
 
 }

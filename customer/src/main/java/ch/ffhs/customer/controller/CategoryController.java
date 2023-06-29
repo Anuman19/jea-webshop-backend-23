@@ -1,14 +1,12 @@
-package ch.ffhs.admin.admin.controller;
+package ch.ffhs.customer.controller;
 
 import ch.ffhs.library.library.dto.CategoryDto;
 import ch.ffhs.library.library.model.Category;
 import ch.ffhs.library.library.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -75,8 +73,8 @@ public class CategoryController {
      * @param attributes flash attributes for forwarding success or error messages
      * @return String with attribute or redirected URL
      */
-    @GetMapping("/update-category/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody CategoryDto category) {
+    @PutMapping("/update-category/{id}")
+    public ResponseEntity<?> updateCategory(@PathVariable("id") Long id, @RequestBody CategoryDto category) {
 
         category.setCategoryId(id);
         try {

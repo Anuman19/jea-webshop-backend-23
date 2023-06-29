@@ -60,7 +60,7 @@ public class LoginController {
      * @return String with view's name "register.html"
      */
     @PostMapping("/register")
-    public ResponseEntity<Customer> register(CustomerDto customerDto) {
+    public ResponseEntity<CustomerDto> register(CustomerDto customerDto) {
 
         return new ResponseEntity<>(customerService.save(customerDto), HttpStatus.CREATED);
     }
@@ -90,5 +90,8 @@ public class LoginController {
             return new ResponseEntity<>("not found", HttpStatus.BAD_REQUEST);
         }
     }
+
+    //@DeleteMapping("/delete-user/{id}")
+
 
 }

@@ -27,15 +27,21 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerRepository customerRepository;
 
     @Override
-    public Customer save(CustomerDto customerDto) {
-        Customer customer = new Customer();
-        customer.setFirstName(customerDto.getFirstName());
-        customer.setLastName(customerDto.getLastName());
-        customer.setPassword(customerDto.getPassword());
-        List<Role> roleList = new ArrayList<>();
-        roleList.add(roleRepository.findRoleById(2L));
+    public CustomerDto save(CustomerDto customerDto) {
+        try {
+            Customer customer = new Customer();
+            customer.setFirstName(customerDto.getFirstName());
+            customer.setLastName(customerDto.getLastName());
+            customer.setPassword(customerDto.getPassword());
+            List<Role> roleList = new ArrayList<>();
+            roleList.add(roleRepository.findRoleById(2L));
 
-        return customerRepository.save(customer);
+            return mapperDTO(customerRepository.save(customer));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
 
     }
 
