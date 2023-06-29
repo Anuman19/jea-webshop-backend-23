@@ -68,6 +68,7 @@ public class AdminConfiguration {
         http.headers().frameOptions().sameOrigin();
         http.authenticationProvider(daoAuthenticationProvider());
         http.csrf((csrf) -> csrf.disable());
+        http.cors();
         return http.build();
     }
 }
