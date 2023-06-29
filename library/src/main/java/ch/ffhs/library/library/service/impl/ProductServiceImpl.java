@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -29,8 +30,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto> findAll() {
         List<Product> products = productRepository.findAll();
-        List<ProductDto> productDtoList = transfer(products);
-        return productDtoList;
+        return transfer(products);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product update(ProductDto productDto) {
+    public ProductDto update(ProductDto productDto) {
         try {
             Product product = productRepository.getReferenceById(productDto.getId());
 
@@ -61,7 +61,7 @@ public class ProductServiceImpl implements ProductService {
             product.setPrice(productDto.getPrice());
             product.setCurrentQuantity(productDto.getCurrentQuantity());
             product.set_activated(true);
-            return productRepository.save(product);
+            return mapperDTO(productRepository.save(product));
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -77,17 +77,22 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto getById(Long id) {
-        Product product = productRepository.getReferenceById(id);
-        ProductDto productDto = new ProductDto();
-        productDto.setId(product.getId());
-        productDto.setName(productDto.getName());
-        productDto.setDescription(product.getDescription());
-        productDto.setPrice(product.getPrice());
-        productDto.setCurrentQuantity(product.getCurrentQuantity());
-        productDto.setCategory(product.getCategory());
-        productDto.setImage(product.getImage());
-        productDto.setActivated(product.is_activated());
-        return productDto;
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+            ProductDto productDto = new ProductDto();
+            productDto.setId(product.getId());
+            productDto.setName(productDto.getName());
+            productDto.setDescription(product.getDescription());
+            productDto.setPrice(product.getPrice());
+            productDto.setCurrentQuantity(product.getCurrentQuantity());
+            productDto.setCategory(product.getCategory());
+            productDto.setImage(product.getImage());
+            productDto.setActivated(product.is_activated());
+            return productDto;
+        } else {
+            return new ProductDto();
+        }
 
     }
 
@@ -157,8 +162,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProductsInCategory(Long categoryId) {
-        return productRepository.getProductsInCategory(categoryId);
+    public List<ProductDto> getProductsInCategory(Long categoryId) {
+
+        return transfer(productRepository.getProductsInCategory(categoryId));
     }
 
     private ProductDto mapperDTO(Product product) {

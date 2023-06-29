@@ -1,20 +1,13 @@
 package ch.ffhs.customer.controller;
 
-import ch.ffhs.library.library.dto.CategoryDto;
 import ch.ffhs.library.library.dto.ProductDto;
-import ch.ffhs.library.library.model.Category;
-import ch.ffhs.library.library.model.Product;
 import ch.ffhs.library.library.repository.ProductRepository;
 import ch.ffhs.library.library.service.CategoryService;
 import ch.ffhs.library.library.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * ProductController is created to map incoming URL request related to the products
@@ -40,7 +33,7 @@ public class ProductController {
      * @return String with view's name "shop.html"
      */
     @GetMapping("/products")
-    public ResponseEntity<List<ProductDto>> products() {
+    public ResponseEntity<?> products() {
 
         return new ResponseEntity<>(productService.findAll(), HttpStatus.OK);
     }
@@ -48,37 +41,77 @@ public class ProductController {
     /**
      * method is called when an HTTP GET request is sent to the /find-products/{id} URL
      *
-     * @param id    of the product
-     * @param model represents the data which is used to pass data to the view
+     * @param id of the product
      * @return String with view's name "product-detail.html"
      */
     @GetMapping("/products/{id}")
-    public ResponseEntity<ProductDto> findProductById(@PathVariable("id") Long id) {
+    public ResponseEntity<?> findProductById(@PathVariable("id") Long id) {
 
-        return new ResponseEntity<>(productService.getById(id), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(productService.getById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.toString(), HttpStatus.CONFLICT);
+
+        }
     }
 
     /**
      * method is called when an HTTP GET request is sent to the /products-in-category/{id} URL
      *
      * @param categoryId for the category
-     * @param model      represents the data which is used to pass data to the view
-     * @return String with view's name "products-in-category.html"
      */
     @GetMapping("/products-in-category/{id}")
-    public String getProductsInCategory(@PathVariable("id") Long categoryId, Model model) {
-        Category category = categoryService.findById(categoryId);
-        List<CategoryDto> categoryDtoList = categoryService.getCategoryAndProduct();
-        List<Product> products = productService.getProductsInCategory(categoryId);
-        model.addAttribute("category", category);
-        model.addAttribute("products", products);
-        model.addAttribute("categories", categoryDtoList);
-        return "products-in-category";
+    public ResponseEntity<?> getProductsInCategory(@PathVariable("id") Long categoryId) {
+
+        try {
+            return new ResponseEntity<>(productService.getProductsInCategory(categoryId), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.toString(), HttpStatus.CONFLICT);
+        }
     }
 
 
-    @PostMapping("/product")
-    public ResponseEntity<ProductDto> saveProduct(@RequestBody ProductDto product) {
-        return new ResponseEntity<>(productService.save(product), HttpStatus.CREATED);
+    @PostMapping("/add-product")
+    public ResponseEntity<?> saveProduct(@RequestBody ProductDto product) {
+        try {
+            product.setCategory(categoryService.findById(product.getCategory().getId()));
+            return new ResponseEntity<>(productService.save(product), HttpStatus.CREATED);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.toString(), HttpStatus.CONFLICT);
+
+        }
+    }
+
+    /**
+     * method is called when an HTTP PUT request is sent to the /update-product/{id} URL
+     * and loads the form for updating an existing product
+     *
+     * @return String with attribute or redirected URL
+     */
+    @PutMapping("/update-product/{id}")
+    public ResponseEntity<?> updateProduct(@PathVariable("id") Long id, @RequestBody ProductDto productDto) {
+
+        productDto.setId(id);
+        try {
+            productDto.setCategory(categoryService.findById(productDto.getCategory().getId()));
+
+            return new ResponseEntity<>(productService.update(productDto), HttpStatus.CREATED);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.toString(), HttpStatus.CONFLICT);
+        }
+
+    }
+
+    @DeleteMapping("/delete-product/{id}")
+    public ResponseEntity<?> deleteProduct(@PathVariable("id") Long id) {
+
+        try {
+            productRepository.deleteById(id);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.toString(), HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>("deleted", HttpStatus.OK);
     }
 }

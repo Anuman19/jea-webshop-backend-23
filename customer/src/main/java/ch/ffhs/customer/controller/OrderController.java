@@ -35,10 +35,10 @@ public class OrderController {
 
     // place order after checkout
     @PostMapping("/add")
-    public ResponseEntity<String> placeOrder(@RequestParam("user") String username, @RequestParam("sessionId") String sessionId) {
+    public ResponseEntity<String> placeOrder(@RequestParam("userId") int userId, @RequestParam("sessionId") String sessionId) {
         // place the order
 
-        orderService.placeOrder(username, sessionId);
+        orderService.placeOrder(userId, sessionId);
         return new ResponseEntity<>("Order has been placed", HttpStatus.CREATED);
     }
 

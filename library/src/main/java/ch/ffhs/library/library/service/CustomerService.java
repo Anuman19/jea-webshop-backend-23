@@ -27,4 +27,6 @@ public interface CustomerService {
     Customer findByUsername(String username);
 
     List<CustomerDto> findAllDto();
+
+    Customer findCustomerById(Long id);
 }

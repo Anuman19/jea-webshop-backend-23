@@ -17,7 +17,7 @@ public interface ProductService {
 
     ProductDto save(ProductDto product);
 
-    Product update(ProductDto product);
+    ProductDto update(ProductDto product);
 
     void enableById(Long id);
 
@@ -36,5 +36,7 @@ public interface ProductService {
 
     List<Product> getRelatedProducts(Long categoryId);
 
-    List<Product> getProductsInCategory(Long categoryId);
+    List<ProductDto> getProductsInCategory(Long categoryId);
+
+
 }

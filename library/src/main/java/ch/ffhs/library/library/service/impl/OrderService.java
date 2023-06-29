@@ -39,7 +39,7 @@ public class OrderService {
     // create total price
     SessionCreateParams.LineItem.PriceData createPriceData(CheckoutItemDto checkoutItemDto) {
         return SessionCreateParams.LineItem.PriceData.builder()
-                .setCurrency("usd")
+                .setCurrency("chf")
                 .setUnitAmount((long) (checkoutItemDto.getPrice() * 100))
                 .setProductData(
                         SessionCreateParams.LineItem.PriceData.ProductData.builder()
@@ -62,13 +62,12 @@ public class OrderService {
     public Session createSession(List<CheckoutItemDto> checkoutItemDtoList) throws StripeException {
 
         // supply success and failure url for stripe
-        String baseURL = "http://localhost:8020/shop";
+        String baseURL = "http://localhost:9000/#";
         String successURL = baseURL + "payment/success";
         String failedURL = baseURL + "payment/failed";
 
         // set the private key
-        String apiKey = "sk_test_51MvcTPGlapSqHKmNyYGfy33pJzOIJR8mgOppHDWhVJHzrF3xWol0V2h3VZeGTHzcOnciKRVyT6AIfxzthLrgXZMM00lmNLjTl0";
-        Stripe.apiKey = apiKey;
+        Stripe.apiKey = "sk_test_51MvcTPGlapSqHKmNyYGfy33pJzOIJR8mgOppHDWhVJHzrF3xWol0V2h3VZeGTHzcOnciKRVyT6AIfxzthLrgXZMM00lmNLjTl0";
 
         List<SessionCreateParams.LineItem> sessionItemsList = new ArrayList<>();
 
@@ -88,7 +87,7 @@ public class OrderService {
         return Session.create(params);
     }
 
-    public void placeOrder(String username, String sessionId) {
+    public void placeOrder(int userId, String sessionId) {
         // first let get cart items for the user
         //CartDto cartDto = cartService.listCartItems(user);
 
@@ -98,7 +97,7 @@ public class OrderService {
         Order newOrder = new Order();
         newOrder.setCreatedDate(new Date());
         newOrder.setSessionId(sessionId);
-        newOrder.setUser(customerService.findByUsername(username));
+        newOrder.setUser(customerService.findCustomerById((long) userId));
         //newOrder.setTotalPrice(cartDto.getTotalCost());
         orderRepository.save(newOrder);
 

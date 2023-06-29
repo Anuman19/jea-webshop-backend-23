@@ -60,4 +60,9 @@ public class CustomerServiceImpl implements CustomerService {
         customerDto.setUsername(customerDto.getUsername());
         return customerDto;
     }
+
+    @Override
+    public Customer findCustomerById(Long id) {
+        return customerRepository.findCustomerById(id);
+    }
 }

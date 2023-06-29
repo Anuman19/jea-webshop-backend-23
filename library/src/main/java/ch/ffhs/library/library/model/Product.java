@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 /**
  * This class represents a product
  */
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "products", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
 
@@ -22,7 +24,7 @@ public class Product {
     private double price;
     private int currentQuantity;
     private String image;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private Category category;
     private int star_rating; // not in tutorial
