@@ -1,8 +1,6 @@
 package ch.ffhs.customer;
 
-import ch.ffhs.customer.controller.AccountController;
 import ch.ffhs.customer.controller.ProductController;
-import ch.ffhs.library.library.dto.CustomerDto;
 import ch.ffhs.library.library.dto.ProductDto;
 import ch.ffhs.library.library.model.Category;
 import ch.ffhs.library.library.service.ProductService;
@@ -14,16 +12,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Mockito.*;

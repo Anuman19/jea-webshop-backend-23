@@ -1,26 +1,17 @@
-package ch.ffhs.admin.admin.controller;
+package ch.ffhs.customer.controller;
 
 import ch.ffhs.library.library.dto.AdminDto;
+import ch.ffhs.library.library.dto.CustomerDto;
 import ch.ffhs.library.library.dto.LoginDto;
 import ch.ffhs.library.library.model.Admin;
-import ch.ffhs.library.library.repository.AdminRepository;
-import ch.ffhs.library.library.service.impl.AdminServiceImpl;
-import jakarta.validation.Valid;
+import ch.ffhs.library.library.model.Customer;
+import ch.ffhs.library.library.repository.CustomerRepository;
+import ch.ffhs.library.library.service.impl.CustomerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.Authenticator;
-import java.util.Optional;
-
 
 /**
  * LoginController is created to map incoming URL request related to the login
@@ -36,10 +27,10 @@ public class LoginController {
 
     // injects service for administrators' management
     @Autowired
-    private AdminServiceImpl adminService;
+    private CustomerServiceImpl customerService;
 
     @Autowired
-    AdminRepository adminRepository;
+    CustomerRepository customerRepository;
 
     /**
      * method is called when an HTTP GET request is sent to the /login URL
@@ -49,14 +40,14 @@ public class LoginController {
      */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
-        Admin admin;
+        Customer customer;
         try {
-            admin = adminService.findByEmail(loginDto.getEmail());
+            customer = customerService.findCustomerByEmail(loginDto.getEmail());
         } catch (Exception e) {
             return new ResponseEntity<>(e.toString(), HttpStatus.CONFLICT);
         }
-        if (admin.getPassword().equals(loginDto.getPassword())) {
-            return new ResponseEntity<>(admin.getId(), HttpStatus.OK);
+        if (customer.getPassword().equals(loginDto.getPassword())) {
+            return new ResponseEntity<>(customer.getId(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>("password not matching", HttpStatus.FORBIDDEN);
         }
@@ -69,16 +60,16 @@ public class LoginController {
      * @return String with view's name "register.html"
      */
     @PostMapping("/register")
-    public ResponseEntity<Admin> register(AdminDto adminDto) {
+    public ResponseEntity<Customer> register(CustomerDto customerDto) {
 
-        return new ResponseEntity<>(adminService.save(adminDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(customerService.save(customerDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/get-user/{id}")
     public ResponseEntity<?> getUser(@PathVariable("id") Long id) {
 
-        if (adminRepository.findById(id).isPresent()) {
-            return new ResponseEntity<>(adminRepository.findById(id).get(), HttpStatus.OK);
+        if (customerRepository.findById(id).isPresent()) {
+            return new ResponseEntity<>(customerRepository.findById(id).get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>("not found", HttpStatus.CONFLICT);
         }
@@ -87,14 +78,14 @@ public class LoginController {
 
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers() {
-        return new ResponseEntity<>(adminRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(customerRepository.findAll(), HttpStatus.OK);
     }
 
     @PutMapping("/update-user/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable("id") Long id, @RequestBody AdminDto adminDto) {
+    public ResponseEntity<?> updateUser(@PathVariable("id") Long id, @RequestBody CustomerDto customerDto) {
 
-        if (adminRepository.findById(id).isPresent()) {
-            return new ResponseEntity<>(adminService.update(adminDto), HttpStatus.OK);
+        if (customerRepository.findById(id).isPresent()) {
+            return new ResponseEntity<>(customerService.update(customerDto), HttpStatus.OK);
         } else {
             return new ResponseEntity<>("not found", HttpStatus.BAD_REQUEST);
         }

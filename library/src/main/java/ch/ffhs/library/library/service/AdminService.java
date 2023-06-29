@@ -13,4 +13,6 @@ public interface AdminService {
     Admin save(AdminDto adminDto);
 
     Admin findByEmail(String Email);
+
+    AdminDto update(AdminDto adminDto);
 }

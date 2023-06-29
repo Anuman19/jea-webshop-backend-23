@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerDto {
+
+    private Long id;
     @Size(min = 1, max = 30, message = "First name should have 1-30 characters")
     private String firstName;
     @Size(min = 1, max = 50, message = "Last name should have 1-50 characters")

@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminDto {
+
+    private Long id;
     @Size(min = 1, max = 30, message = "Invalid first name! (1-30 characters")
     private String firstName;
     @Size(min = 1, max = 50, message = "Invalid last name! (1-50 characters")

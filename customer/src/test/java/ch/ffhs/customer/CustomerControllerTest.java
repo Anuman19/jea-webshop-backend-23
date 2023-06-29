@@ -1,9 +1,7 @@
 package ch.ffhs.customer;
 
-import ch.ffhs.customer.controller.AccountController;
+import ch.ffhs.customer.controller.LoginController;
 import ch.ffhs.library.library.dto.CustomerDto;
-import ch.ffhs.library.library.model.Customer;
-import ch.ffhs.library.library.repository.CustomerRepository;
 import ch.ffhs.library.library.service.CustomerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -13,7 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -37,7 +34,7 @@ class CustomerControllerTest {
 
     private List<CustomerDto> customerList = new ArrayList<>();
     @InjectMocks
-    private AccountController accountController;
+    private LoginController accountController;
 
     //@Autowired
     private MockMvc mockMvc;

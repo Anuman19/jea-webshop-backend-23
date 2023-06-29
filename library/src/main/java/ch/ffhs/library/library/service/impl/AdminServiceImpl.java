@@ -46,6 +46,25 @@ public class AdminServiceImpl implements AdminService {
         return adminRepository.save(admin);
     }
 
+    @Override
+    public AdminDto update(AdminDto adminDto) {
+        if (adminRepository.findById(adminDto.getId()).isPresent()) {
+            Admin admin = adminRepository.findById(adminDto.getId()).get();
+            admin.setFirstName(adminDto.getFirstName());
+            admin.setEmail(adminDto.getEmail());
+            admin.setLastName(adminDto.getLastName());
+            admin.setUsername(adminDto.getUsername());
+            admin.setPassword(adminDto.getPassword());
+            List<Role> roleList = new ArrayList<>();
+            roleList.add(roleRepository.findRoleById(1L));
+            System.out.println(roleList);
+            admin.setRoles(roleList);
+            return mapperDto(adminRepository.save(admin));
+        } else {
+            return new AdminDto();
+        }
+    }
+
     /**
      * @param Email
      * @return
@@ -56,6 +75,6 @@ public class AdminServiceImpl implements AdminService {
     }
 
     private AdminDto mapperDto(Admin admin) {
-        return new AdminDto(admin.getFirstName(), admin.getLastName(), admin.getUsername(), admin.getEmail(), admin.getPassword());
+        return new AdminDto(admin.getId(), admin.getFirstName(), admin.getLastName(), admin.getUsername(), admin.getEmail(), admin.getPassword());
     }
 }

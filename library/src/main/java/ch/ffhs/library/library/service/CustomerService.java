@@ -16,7 +16,7 @@ public interface CustomerService {
      * @param customerDto represents customer
      * @return CustomerDto
      */
-    CustomerDto save(CustomerDto customerDto);
+    Customer save(CustomerDto customerDto);
 
     /**
      * This method searches for a customer based on the username
@@ -29,4 +29,8 @@ public interface CustomerService {
     List<CustomerDto> findAllDto();
 
     Customer findCustomerById(Long id);
+
+    Customer findCustomerByEmail(String email);
+
+    CustomerDto update(CustomerDto customerDto);
 }

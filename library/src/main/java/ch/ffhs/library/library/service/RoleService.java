@@ -6,5 +6,7 @@ import ch.ffhs.library.library.model.Role;
  * operations required for managing roles
  */
 public interface RoleService {
-    Role findByName(String name);
+    Role findRoleByName(String name);
+
+    Role findRoleById(Long id);
 }
