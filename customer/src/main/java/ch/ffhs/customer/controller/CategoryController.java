@@ -2,6 +2,7 @@ package ch.ffhs.customer.controller;
 
 import ch.ffhs.library.library.dto.CategoryDto;
 import ch.ffhs.library.library.model.Category;
+import ch.ffhs.library.library.repository.CategoryRepository;
 import ch.ffhs.library.library.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,9 @@ public class CategoryController {
     // to access the service to execute business logic related to categories
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     /**
      * method is called when an HTTP GET request is sent to the /categories URL
@@ -96,7 +100,7 @@ public class CategoryController {
     public ResponseEntity<?> deleteCategory(@PathVariable("id") Long id) {
 
         try {
-            categoryService.deletedById(id);
+            categoryRepository.deleteById(id);
         } catch (Exception e) {
             return new ResponseEntity<>(e.toString(), HttpStatus.CONFLICT);
         }
