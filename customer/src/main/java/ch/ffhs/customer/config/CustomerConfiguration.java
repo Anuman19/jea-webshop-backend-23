@@ -86,17 +86,10 @@ public class CustomerConfiguration {
         http.headers().frameOptions().sameOrigin();
         http.authenticationProvider(provider());
         http.csrf((csrf) -> csrf.disable());
+        http.cors(cors -> cors.disable());
         return http.build();
     }
 
-    @Configuration
-    @EnableWebMvc
-    public static class WebConfig implements WebMvcConfigurer {
 
-        @Override
-        public void addCorsMappings(CorsRegistry registry) {
-            registry.addMapping("/**");
-        }
-    }
 
 }
