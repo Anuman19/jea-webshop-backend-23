@@ -59,7 +59,7 @@ public class CheckoutItemDto {
     }
 
 
-    public long getImage() {
+    public String getImage() {
         return image;
     }
 

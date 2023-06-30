@@ -17,10 +17,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -61,11 +58,6 @@ public class OrderService {
     // create session from list of checkout items
     public Session createSession(List<CheckoutItemDto> checkoutItemDtoList) throws StripeException {
 
-        // supply success and failure url for stripe
-        String baseURL = "http://localhost:9000/#";
-        String successURL = baseURL + "payment/success";
-        String failedURL = baseURL + "payment/failed";
-
         // set the private key
         Stripe.apiKey = "sk_test_51MvcTPGlapSqHKmNyYGfy33pJzOIJR8mgOppHDWhVJHzrF3xWol0V2h3VZeGTHzcOnciKRVyT6AIfxzthLrgXZMM00lmNLjTl0";
 
@@ -76,22 +68,20 @@ public class OrderService {
             sessionItemsList.add(createSessionLineItem(checkoutItemDto));
         }
 
+
         // build the session param
         SessionCreateParams params = SessionCreateParams.builder()
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                 .setMode(SessionCreateParams.Mode.PAYMENT)
-                .setCancelUrl(failedURL)
                 .addAllLineItem(sessionItemsList)
-                .setSuccessUrl(successURL)
+                .setSuccessUrl("http://localhost:9000/#/payment/success/{CHECKOUT_SESSION_ID}")
+                .setCancelUrl("http://localhost:9000/#/payment/failed/{CHECKOUT_SESSION_ID}")
                 .build();
+
         return Session.create(params);
     }
 
     public void placeOrder(int userId, String sessionId) {
-        // first let get cart items for the user
-        //CartDto cartDto = cartService.listCartItems(user);
-
-        //List<CartItemDto> cartItemDtoList = cartDto.getcartItems();
 
         // create the order and save it
         Order newOrder = new Order();
