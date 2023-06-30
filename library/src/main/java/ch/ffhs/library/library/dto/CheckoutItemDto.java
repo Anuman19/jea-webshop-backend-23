@@ -7,15 +7,17 @@ public class CheckoutItemDto {
     private double price;
     private long productId;
     private int userId;
+    private String image;
 
     public CheckoutItemDto() {}
 
-    public CheckoutItemDto(String productName, int quantity, double price, long productId, int userId) {
+    public CheckoutItemDto(String productName, int quantity, double price, long productId, int userId, String image) {
         this.productName = productName;
         this.quantity = quantity;
         this.price = price;
         this.productId = productId;
         this.userId = userId;
+        this.image = image;
     }
 
     public String getProductName() {
@@ -56,6 +58,14 @@ public class CheckoutItemDto {
         this.productId = id;
     }
 
+
+    public long getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
 
 }
