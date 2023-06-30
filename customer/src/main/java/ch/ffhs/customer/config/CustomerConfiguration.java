@@ -85,11 +85,23 @@ public class CustomerConfiguration {
 
         http.headers().frameOptions().sameOrigin();
         http.authenticationProvider(provider());
-        http.csrf((csrf) -> csrf.disable());
-        http.cors();
+        http.csrf().disable();
+        http.cors(withDefaults());
         return http.build();
     }
 
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:9000"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+        configuration.setAllowedHeaders(Arrays.asList("Content-Type"));
+        configuration.setExposedHeaders(Arrays.asList("Content-Security-Policy", "Location"));
+        configuration.setMaxAge(600L);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
 
 }
