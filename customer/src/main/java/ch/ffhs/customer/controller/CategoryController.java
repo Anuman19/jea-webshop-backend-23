@@ -39,7 +39,7 @@ public class CategoryController {
      * method is called when an HTTP POST request is sent to the /add-category URL and will add a new category
      *
      * @param category object to save new category
-     * @return String with attribute or redirected URL
+     * @return ResponseEntity newly created category and 201
      */
     @PostMapping("/add-category")
     public ResponseEntity<?> addCategory(@RequestBody CategoryDto category) {
@@ -53,11 +53,11 @@ public class CategoryController {
     }
 
     /**
-     * method is called when an HTTP PUT or GET request is sent to the /findById URL
+     * method is called when an HTTP  GET request is sent to the /categories/{id} URL
      * and is searching for a category by its ID
      *
      * @param id of the category
-     * @return category JSON object
+     * @return ResponseEntity with category by id and 200
      */
     @GetMapping("/categories/{id}")
     public ResponseEntity<?> findCategoryById(@PathVariable("id") Long id) {
@@ -73,9 +73,9 @@ public class CategoryController {
     /**
      * method is called when an HTTP GET request is sent to the /update-category URL
      *
-     * @param category   object to update
-     * @param attributes flash attributes for forwarding success or error messages
-     * @return String with attribute or redirected URL
+     * @param id       of category
+     * @param category DTO to update
+     * @return ResponseEntity updated category and 201
      */
     @PutMapping("/update-category/{id}")
     public ResponseEntity<?> updateCategory(@PathVariable("id") Long id, @RequestBody CategoryDto category) {
@@ -92,9 +92,8 @@ public class CategoryController {
      * method is called when an HTTP PUT or GET request is sent to the /deleted-category URL
      * and deletes a category by its ID
      *
-     * @param id         of the category
-     * @param attributes flash attributes for forwarding success or error messages
-     * @return String with attribute or redirected URL
+     * @param id of the category
+     * @return String "deleted" and 200
      */
     @DeleteMapping("/delete-category/{id}")
     public ResponseEntity<?> deleteCategory(@PathVariable("id") Long id) {

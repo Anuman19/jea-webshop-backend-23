@@ -2,13 +2,12 @@ package ch.ffhs.admin.admin.controller;
 
 import ch.ffhs.library.library.dto.CategoryDto;
 import ch.ffhs.library.library.model.Category;
+import ch.ffhs.library.library.repository.CategoryRepository;
 import ch.ffhs.library.library.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -21,6 +20,9 @@ public class CategoryController {
     // to access the service to execute business logic related to categories
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     /**
      * method is called when an HTTP GET request is sent to the /categories URL
@@ -37,7 +39,7 @@ public class CategoryController {
      * method is called when an HTTP POST request is sent to the /add-category URL and will add a new category
      *
      * @param category object to save new category
-     * @return String with attribute or redirected URL
+     * @return ResponseEntity newly created category and 201
      */
     @PostMapping("/add-category")
     public ResponseEntity<?> addCategory(@RequestBody CategoryDto category) {
@@ -51,11 +53,11 @@ public class CategoryController {
     }
 
     /**
-     * method is called when an HTTP PUT or GET request is sent to the /findById URL
+     * method is called when an HTTP  GET request is sent to the /categories/{id} URL
      * and is searching for a category by its ID
      *
      * @param id of the category
-     * @return category JSON object
+     * @return ResponseEntity with category by id and 200
      */
     @GetMapping("/categories/{id}")
     public ResponseEntity<?> findCategoryById(@PathVariable("id") Long id) {
@@ -71,12 +73,12 @@ public class CategoryController {
     /**
      * method is called when an HTTP GET request is sent to the /update-category URL
      *
-     * @param category   object to update
-     * @param attributes flash attributes for forwarding success or error messages
-     * @return String with attribute or redirected URL
+     * @param id       of category
+     * @param category DTO to update
+     * @return ResponseEntity updated category and 201
      */
-    @GetMapping("/update-category/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody CategoryDto category) {
+    @PutMapping("/update-category/{id}")
+    public ResponseEntity<?> updateCategory(@PathVariable("id") Long id, @RequestBody CategoryDto category) {
 
         category.setCategoryId(id);
         try {
@@ -90,15 +92,14 @@ public class CategoryController {
      * method is called when an HTTP PUT or GET request is sent to the /deleted-category URL
      * and deletes a category by its ID
      *
-     * @param id         of the category
-     * @param attributes flash attributes for forwarding success or error messages
-     * @return String with attribute or redirected URL
+     * @param id of the category
+     * @return String "deleted" and 200
      */
     @DeleteMapping("/delete-category/{id}")
     public ResponseEntity<?> deleteCategory(@PathVariable("id") Long id) {
 
         try {
-            categoryService.deletedById(id);
+            categoryRepository.deleteById(id);
         } catch (Exception e) {
             return new ResponseEntity<>(e.toString(), HttpStatus.CONFLICT);
         }

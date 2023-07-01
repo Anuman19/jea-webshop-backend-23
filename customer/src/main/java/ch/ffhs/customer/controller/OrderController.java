@@ -59,12 +59,16 @@ public class OrderController {
 
     // place order after checkout
     @PostMapping("/add")
-    public ResponseEntity<String> placeOrder(@RequestParam("sessionId") String sessionId, @RequestBody() CheckoutItemDto checkoutItemDto) {
+    public ResponseEntity<String> placeOrder(@RequestParam("sessionId") String sessionId, @RequestBody() List<CheckoutItemDto> checkoutItemDtoList) {
         // place the order
 
 
-        orderItemsService.addOrderedProducts(new OrderItem(orderService.placeOrder(sessionId, checkoutItemDto), productService.getProductById(checkoutItemDto.getProductId()), checkoutItemDto.getQuantity(), checkoutItemDto.getPrice()));
+        Order order = orderService.placeOrder(sessionId, checkoutItemDtoList.get(0));
 
+        for (CheckoutItemDto checkoutItemDto : checkoutItemDtoList) {
+
+            orderItemsService.addOrderedProducts(new OrderItem(order, productService.getProductById(checkoutItemDto.getProductId()), checkoutItemDto.getQuantity(), checkoutItemDto.getPrice()));
+        }
 
         return new ResponseEntity<>("Order has been placed", HttpStatus.CREATED);
     }

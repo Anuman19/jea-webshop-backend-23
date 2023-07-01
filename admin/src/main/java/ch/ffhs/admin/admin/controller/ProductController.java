@@ -30,7 +30,7 @@ public class ProductController {
     /**
      * method is called when an HTTP GET request is sent to the /products URL
      *
-     * @return String with view's name "shop.html"
+     * @return ResponseEntity with all products and 200
      */
     @GetMapping("/products")
     public ResponseEntity<?> products() {
@@ -42,7 +42,7 @@ public class ProductController {
      * method is called when an HTTP GET request is sent to the /find-products/{id} URL
      *
      * @param id of the product
-     * @return String with view's name "product-detail.html"
+     * @return ResponseEntity product by id and 200
      */
     @GetMapping("/products/{id}")
     public ResponseEntity<?> findProductById(@PathVariable("id") Long id) {
@@ -59,6 +59,7 @@ public class ProductController {
      * method is called when an HTTP GET request is sent to the /products-in-category/{id} URL
      *
      * @param categoryId for the category
+     * @return ResponseEntity products in a category and 200
      */
     @GetMapping("/products-in-category/{id}")
     public ResponseEntity<?> getProductsInCategory(@PathVariable("id") Long categoryId) {
@@ -71,6 +72,12 @@ public class ProductController {
     }
 
 
+    /**
+     * method is called when an HTTP POST request is sent to the /add-product URL
+     *
+     * @param product DTO
+     * @return ResponseEntity new product DTO and 201
+     */
     @PostMapping("/add-product")
     public ResponseEntity<?> saveProduct(@RequestBody ProductDto product) {
         try {
@@ -87,7 +94,9 @@ public class ProductController {
      * method is called when an HTTP PUT request is sent to the /update-product/{id} URL
      * and loads the form for updating an existing product
      *
-     * @return String with attribute or redirected URL
+     * @param id         of product
+     * @param productDto DTO of product
+     * @return ResponseEntity with updated Product and 201
      */
     @PutMapping("/update-product/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable("id") Long id, @RequestBody ProductDto productDto) {
@@ -103,6 +112,13 @@ public class ProductController {
 
     }
 
+    /**
+     * method is called when an HTTP DELETE request is sent to the /delete-product/{id} URL
+     * and loads the form for updating an existing product
+     *
+     * @param id of product
+     * @return ResponseEntity with String "deleted" and 201
+     */
     @DeleteMapping("/delete-product/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable("id") Long id) {
 
