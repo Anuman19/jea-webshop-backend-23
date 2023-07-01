@@ -81,14 +81,14 @@ public class OrderService {
         return Session.create(params);
     }
 
-    public void placeOrder(int userId, String sessionId) {
+    public void placeOrder(String sessionId, CheckoutItemDto checkoutItemDto) {
 
         // create the order and save it
         Order newOrder = new Order();
         newOrder.setCreatedDate(new Date());
         newOrder.setSessionId(sessionId);
-        newOrder.setUser(customerService.findCustomerById((long) userId));
-        //newOrder.setTotalPrice(cartDto.getTotalCost());
+        newOrder.setUser(customerService.findCustomerById((long) checkoutItemDto.getUserId()));
+        newOrder.setTotalPrice(checkoutItemDto.getPrice());
         orderRepository.save(newOrder);
 
         /**for (CartItemDto cartItemDto : cartItemDtoList) {
@@ -106,8 +106,8 @@ public class OrderService {
          cartService.deleteUserCartItems(user);**/
     }
 
-    public List<Order> listOrders(CustomerDto user) {
-        return orderRepository.findAllByUserOrderByCreatedDateDesc(customerService.findByUsername(user.getUsername()));
+    public List<Order> listOrders(Long id) {
+        return orderRepository.findAllByUserOrderByCreatedDateDesc(customerService.findByUsername(customerService.findCustomerById(id).getUsername()));
     }
 
 
