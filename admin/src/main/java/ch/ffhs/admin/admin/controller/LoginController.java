@@ -42,10 +42,9 @@ public class LoginController {
     AdminRepository adminRepository;
 
     /**
-     * method is called when an HTTP GET request is sent to the /login URL
+     * method is called when an HTTP POST request is sent to the /login URL
      *
-     * @param model represents the data which is used to pass data to the view
-     * @return String with view's name "login.html"
+     * @return ResponseEntity with user id and 200
      */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
@@ -63,10 +62,9 @@ public class LoginController {
     }
 
     /**
-     * method is called when an HTTP GET request is sent to the /register URL
+     * method is called when an HTTP POST request is sent to the /register URL
      *
-     * @param model represents the data which is used to pass data to the view
-     * @return String with view's name "register.html"
+     * @return ResponseEntity newly registered user and 201
      */
     @PostMapping("/register")
     public ResponseEntity<Admin> register(AdminDto adminDto) {
@@ -74,6 +72,12 @@ public class LoginController {
         return new ResponseEntity<>(adminService.save(adminDto), HttpStatus.CREATED);
     }
 
+    /**
+     * method is called when an HTTP GET request is sent to the /get-user/{id} URL
+     *
+     * @param id of user
+     * @return ResponseEntity user by id and 200
+     */
     @GetMapping("/get-user/{id}")
     public ResponseEntity<?> getUser(@PathVariable("id") Long id) {
 
@@ -85,11 +89,23 @@ public class LoginController {
 
     }
 
+    /**
+     * method is called when an HTTP GET request is sent to the /users URL
+     *
+     * @return ResponseEntity all users and 200
+     */
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers() {
         return new ResponseEntity<>(adminRepository.findAll(), HttpStatus.OK);
     }
 
+    /**
+     * method is called when an HTTP PUT request is sent to the /update-user/{id} URL
+     *
+     * @param id       of user
+     * @param adminDto with changes
+     * @return ResponseEntity updated user and 200
+     */
     @PutMapping("/update-user/{id}")
     public ResponseEntity<?> updateUser(@PathVariable("id") Long id, @RequestBody AdminDto adminDto) {
 
