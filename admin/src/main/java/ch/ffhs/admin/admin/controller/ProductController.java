@@ -94,8 +94,7 @@ public class ProductController {
 
         productDto.setId(id);
         try {
-            productDto.setCategory(categoryService.findById(productDto.getCategory().getId()));
-
+            productDto.setCategory(categoryService.findById(productService.getById(id).getCategory().getId()));
             return new ResponseEntity<>(productService.update(productDto), HttpStatus.CREATED);
 
         } catch (Exception e) {
