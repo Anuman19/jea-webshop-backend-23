@@ -41,8 +41,8 @@ class CustomerControllerTest {
 
     @BeforeEach
     public void setup() {
-        customer = new CustomerDto("fTest", "lTest", "uTest", "pass", "rpass");
-        customer1 = new CustomerDto("fTest1", "lTest1", "uTest1", "pass", "rpass");
+        customer = new CustomerDto(1L, "fTest", "lTest", "uTest", "pass", "rpass");
+        customer1 = new CustomerDto(2L, "fTest1", "lTest1", "uTest1", "pass", "rpass");
         customerList.add(customer);
         customerList.add(customer1);
 

@@ -48,7 +48,7 @@ public class LoginControllerMockTest {
         Collection<Role> collection = new ArrayList<>();
         collection.add(role);
         admin = new Admin(1L, "testAdmin", "testAdmin", "test", "test@mail", "password", collection);
-        adminDto = new AdminDto("testAdmin", "testAdmin", "test", "test@mail", "password");
+        adminDto = new AdminDto(1L,"testAdmin", "testAdmin", "test", "test@mail", "password");
         loginDto = new LoginDto("testAdmin", "password");
 
         mockMvc = MockMvcBuilders.standaloneSetup(loginController).build();
