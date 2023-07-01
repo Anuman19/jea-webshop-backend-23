@@ -81,7 +81,7 @@ public class OrderService {
         return Session.create(params);
     }
 
-    public void placeOrder(String sessionId, CheckoutItemDto checkoutItemDto) {
+    public Order placeOrder(String sessionId, CheckoutItemDto checkoutItemDto) {
 
         // create the order and save it
         Order newOrder = new Order();
@@ -89,7 +89,7 @@ public class OrderService {
         newOrder.setSessionId(sessionId);
         newOrder.setUser(customerService.findCustomerById((long) checkoutItemDto.getUserId()));
         newOrder.setTotalPrice(checkoutItemDto.getPrice());
-        orderRepository.save(newOrder);
+        return orderRepository.save(newOrder);
 
         /**for (CartItemDto cartItemDto : cartItemDtoList) {
          // create orderItem and save each one

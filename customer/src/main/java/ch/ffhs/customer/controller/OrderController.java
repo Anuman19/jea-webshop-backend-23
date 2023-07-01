@@ -6,8 +6,12 @@ import ch.ffhs.library.library.dto.CustomerDto;
 import ch.ffhs.library.library.dto.StripeResponse;
 import ch.ffhs.library.library.model.Customer;
 import ch.ffhs.library.library.model.Order;
+import ch.ffhs.library.library.model.OrderItem;
+import ch.ffhs.library.library.repository.OrderItemRepository;
 import ch.ffhs.library.library.repository.OrderRepository;
+import ch.ffhs.library.library.service.ProductService;
 import ch.ffhs.library.library.service.impl.CustomerServiceImpl;
+import ch.ffhs.library.library.service.impl.OrderItemsService;
 import ch.ffhs.library.library.service.impl.OrderService;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
@@ -16,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -28,7 +33,16 @@ public class OrderController {
     private OrderRepository orderRepository;
 
     @Autowired
+    private OrderItemsService orderItemsService;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
+
+    @Autowired
     private CustomerServiceImpl customerService;
+
+    @Autowired
+    private ProductService productService;
 
     @PostMapping("/create-checkout-session")
     public ResponseEntity<?> checkoutList(@RequestBody List<CheckoutItemDto> checkoutItemDtoList) throws StripeException {
@@ -48,13 +62,16 @@ public class OrderController {
     public ResponseEntity<String> placeOrder(@RequestParam("sessionId") String sessionId, @RequestBody() CheckoutItemDto checkoutItemDto) {
         // place the order
 
-        orderService.placeOrder(sessionId, checkoutItemDto);
+
+        orderItemsService.addOrderedProducts(new OrderItem(orderService.placeOrder(sessionId, checkoutItemDto), productService.getProductById(checkoutItemDto.getProductId()), checkoutItemDto.getQuantity(), checkoutItemDto.getPrice()));
+
+
         return new ResponseEntity<>("Order has been placed", HttpStatus.CREATED);
     }
 
     // get all orders
     @GetMapping("/{id}")
-    public ResponseEntity<List<Order>> getAllOrders(@PathVariable("id") Long id) {
+    public ResponseEntity<List<Order>> getByUserId(@PathVariable("id") Long id) {
 
         // get orders
         List<Order> orderDtoList = orderService.listOrders(id);
@@ -64,7 +81,7 @@ public class OrderController {
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllOrders() {
-        return new ResponseEntity<>(orderRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(orderItemRepository.findAll(), HttpStatus.OK);
     }
 
 
