@@ -8,22 +8,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RoleServiceImpl implements RoleService {
-    /**
-     * @param name
-     * @return
-     */
+
 
     @Autowired
     RoleRepository roleRepository;
 
-    @Override
-    public Role findRoleByName(String name) {
-        return roleRepository.findRoleByName(name);
-    }
-
     /**
-     * @param id
-     * @return
+     * @param id of Role
+     * @return the Role
      */
     @Override
     public Role findRoleById(Long id) {

@@ -14,9 +14,5 @@ public interface CategoryService {
     CategoryDto save(CategoryDto category);
     Category findById(Long id);
     CategoryDto update(CategoryDto category);
-    void deletedById(Long id);
-    void enabledById(Long id);
-    List<Category> findAllByActivated();
 
-    /* Customer */
 }

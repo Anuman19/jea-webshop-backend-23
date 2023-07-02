@@ -1,9 +1,7 @@
 package ch.ffhs.customer.controller;
 
-import ch.ffhs.library.library.dto.AdminDto;
 import ch.ffhs.library.library.dto.CustomerDto;
 import ch.ffhs.library.library.dto.LoginDto;
-import ch.ffhs.library.library.model.Admin;
 import ch.ffhs.library.library.model.Customer;
 import ch.ffhs.library.library.repository.CustomerRepository;
 import ch.ffhs.library.library.service.impl.CustomerServiceImpl;

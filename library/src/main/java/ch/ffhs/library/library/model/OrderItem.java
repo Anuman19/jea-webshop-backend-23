@@ -13,6 +13,9 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Date;
 
+/**
+ * This class represents an ordered item
+ */
 @Entity
 @Table(name = "orderitems")
 public class OrderItem {

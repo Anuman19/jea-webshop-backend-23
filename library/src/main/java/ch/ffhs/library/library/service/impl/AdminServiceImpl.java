@@ -8,11 +8,8 @@ import ch.ffhs.library.library.repository.RoleRepository;
 import ch.ffhs.library.library.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -23,12 +20,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private RoleRepository roleRepository;
-
-    @Override
-    public Admin findByUsername(String username) {
-        return adminRepository.findByUsername(username);
-    }
-
 
     @Override
     public Admin save(AdminDto adminDto) {
@@ -64,10 +55,7 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
-    /**
-     * @param Email
-     * @return
-     */
+
     @Override
     public Admin findByEmail(String email) {
         return adminRepository.findAdminByEmail(email);

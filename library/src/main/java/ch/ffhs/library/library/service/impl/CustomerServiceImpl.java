@@ -67,9 +67,6 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findByUsername(username);
     }
 
-    /**
-     * @return todo
-     */
     @Override
     public List<CustomerDto> findAllDto() {
         List<Customer> customerList = customerRepository.findAll();

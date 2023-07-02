@@ -1,9 +1,7 @@
 package ch.ffhs.library.library.service.impl;
 
 import ch.ffhs.library.library.dto.CategoryDto;
-import ch.ffhs.library.library.dto.CustomerDto;
 import ch.ffhs.library.library.model.Category;
-import ch.ffhs.library.library.model.Customer;
 import ch.ffhs.library.library.repository.CategoryRepository;
 import ch.ffhs.library.library.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,31 +48,6 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return mapperDto(repository.save(DtoMapper(categoryDto)));
     }
-
-    @Override
-    public void deletedById(Long id) {
-        Category category = repository.getReferenceById(id);
-        category.setActivated(false);
-        repository.save(category);
-    }
-
-    @Override
-    public void enabledById(Long id) {
-        Category category = repository.getReferenceById(id);
-        category.setActivated(true);
-        repository.save(category);
-    }
-
-    @Override
-    public List<Category> findAllByActivated() {
-        return repository.findAllByActivated();
-    }
-
-    /**
-     * @Override public List<CategoryDto> getCategoryAndProduct() {
-     * return repository.getCategoryAndProduct();
-     * }
-     **/
 
     private CategoryDto mapperDto(Category category) {
         return new CategoryDto(category.getId(), category.getName(), category.isActivated());

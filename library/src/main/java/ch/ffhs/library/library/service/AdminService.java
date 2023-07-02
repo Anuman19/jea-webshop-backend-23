@@ -8,8 +8,6 @@ import ch.ffhs.library.library.model.Admin;
  * operations required for managing admins
  */
 public interface AdminService {
-    Admin findByUsername(String username);
-
     Admin save(AdminDto adminDto);
 
     Admin findByEmail(String Email);

@@ -5,10 +5,6 @@ import ch.ffhs.library.library.model.Product;
 import ch.ffhs.library.library.repository.ProductRepository;
 import ch.ffhs.library.library.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -69,13 +65,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void enableById(Long id) {
-        Product product = productRepository.getReferenceById(id);
-        product.set_activated(true);
-        productRepository.save(product);
-    }
-
-    @Override
     public ProductDto getById(Long id) {
         Optional<Product> optionalProduct = productRepository.findById(id);
         if (optionalProduct.isPresent()) {
@@ -96,32 +85,6 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
-    @Override
-    public Page<ProductDto> pageProducts(int pageNo) {
-        Pageable pageable = PageRequest.of(pageNo, 5);
-        List<ProductDto> products = transfer(productRepository.findAll());
-        Page<ProductDto> productPages = toPage(products, pageable);
-        return productPages;
-    }
-
-    private Page toPage(List<ProductDto> list, Pageable pageable) {
-        if (pageable.getOffset() >= list.size()) {
-            return Page.empty();
-        }
-        int startIndex = (int) pageable.getOffset();
-        int endIndex = ((pageable.getOffset() + pageable.getPageSize()) > list.size()) ? list.size() : (int) (pageable.getOffset() + pageable.getPageSize());
-        List subList = list.subList(startIndex, endIndex);
-        return new PageImpl(subList, pageable, list.size());
-    }
-
-    @Override
-    public Page<ProductDto> searchProducts(int pageNo, String keyword) {
-        Pageable pageable = PageRequest.of(pageNo, 5);
-        List<ProductDto> productDtoList = transfer(productRepository.searchProductsList(keyword));
-        Page<ProductDto> productPages = toPage(productDtoList, pageable);
-        return productPages;
-    }
-
     private List<ProductDto> transfer(List<Product> products) {
         List<ProductDto> productDtoList = new ArrayList<>();
         for (Product product : products) {
@@ -139,26 +102,9 @@ public class ProductServiceImpl implements ProductService {
         return productDtoList;
     }
 
-    /* Customer */
-
-    @Override
-    public List<Product> getAllProducts() {
-        return productRepository.getAllProducts();
-    }
-
-    @Override
-    public List<Product> listViewProducts() {
-        return productRepository.listViewProducts();
-    }
-
     @Override
     public Product getProductById(Long id) {
         return productRepository.getReferenceById(id);
-    }
-
-    @Override
-    public List<Product> getRelatedProducts(Long categoryId) {
-        return productRepository.geRelatedProducts(categoryId);
     }
 
     @Override

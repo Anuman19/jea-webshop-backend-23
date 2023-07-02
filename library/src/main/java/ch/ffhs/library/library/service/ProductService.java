@@ -19,22 +19,12 @@ public interface ProductService {
 
     ProductDto update(ProductDto product);
 
-    void enableById(Long id);
 
     ProductDto getById(Long id);
 
-    Page<ProductDto> pageProducts(int pageNo);
-
-    Page<ProductDto> searchProducts(int pageNo, String keyword);
-
-    /* Customer */
-    List<Product> getAllProducts();
-
-    List<Product> listViewProducts();
 
     Product getProductById(Long id);
 
-    List<Product> getRelatedProducts(Long categoryId);
 
     List<ProductDto> getProductsInCategory(Long categoryId);
 

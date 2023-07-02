@@ -42,18 +42,24 @@ public class LoginControllerMockTest {
 
     private MockMvc mockMvc;
 
+    /**
+     * This is the setup for the testing. A role, admin, admindto and logindtos are created. The LoginController is injected.
+     */
     @BeforeEach
     public void setup() {
         role = new Role(1L, "Admin");
         Collection<Role> collection = new ArrayList<>();
         collection.add(role);
         admin = new Admin(1L, "testAdmin", "testAdmin", "test", "test@mail", "password", collection);
-        adminDto = new AdminDto(1L,"testAdmin", "testAdmin", "test", "test@mail", "password");
+        adminDto = new AdminDto(1L, "testAdmin", "testAdmin", "test", "test@mail", "password");
         loginDto = new LoginDto("testAdmin", "password");
 
         mockMvc = MockMvcBuilders.standaloneSetup(loginController).build();
     }
 
+    /**
+     * After every test all the created objects are set to null.
+     */
     @AfterEach
     void tearDown() {
         admin = null;
@@ -62,24 +68,32 @@ public class LoginControllerMockTest {
         mockMvc = null;
     }
 
+    /**
+     * testing of POST /register and verify if a newly created admin is returned.
+     */
     @Test
     void PostMappingOfRegister() throws Exception {
 
         when(adminService.save(any())).thenReturn(admin);
         mockMvc.perform(post("/register").contentType(MediaType.APPLICATION_JSON).content(asJsonString(adminDto))).andDo(print()).andExpect(status().isCreated());
-        verify(adminService).save(any());
-        verify(adminService, times(1)).save(any());
+        verify(adminService, times(2)).save(any());
     }
 
+    /**
+     * testing of POST /login and verify if the admin is returned.
+     */
     @Test
     void PostMappingOfLogin() throws Exception {
 
         when(adminService.findByEmail(any())).thenReturn(admin);
         mockMvc.perform(post("/login").contentType(MediaType.APPLICATION_JSON).content(asJsonString(loginDto))).andDo(print()).andExpect(status().isOk());
-        verify(adminService).findByEmail(any());
-        verify(adminService, times(1)).findByEmail(any());
+        verify(adminService, times(2)).findByEmail(any());
+
     }
 
+    /**
+     * helper methods
+     */
     public static String asJsonString(final AdminDto adminDto) {
         try {
             return new ObjectMapper().writeValueAsString(adminDto);
