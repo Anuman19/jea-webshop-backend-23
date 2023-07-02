@@ -13,6 +13,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -70,7 +71,7 @@ public class AdminConfiguration {
 
         http.headers().frameOptions().sameOrigin();
         http.authenticationProvider(daoAuthenticationProvider());
-        http.csrf((csrf) -> csrf.disable());
+        http.csrf().disable();
         http.cors(withDefaults());
         return http.build();
     }
@@ -82,9 +83,9 @@ public class AdminConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:9000"));
+        configuration.setAllowedOrigins(List.of("http://localhost:9000"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-        configuration.setAllowedHeaders(Arrays.asList("Content-Type"));
+        configuration.setAllowedHeaders(List.of("Content-Type"));
         configuration.setExposedHeaders(Arrays.asList("Content-Security-Policy", "Location"));
         configuration.setMaxAge(600L);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
