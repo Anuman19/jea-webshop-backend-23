@@ -82,6 +82,12 @@ ON CONFLICT DO NOTHING;
 -- Kunden Tabelle beladen
 INSERT INTO public.customers (address, country, email, first_name, last_name, password, phone_number,
                               username, city_id)
+VALUES ('swagger', 'CH', 'swagger@mail.com', 'swagger', 'swagger', '1234', '+41 78 433 25 25',
+        'swagger', 1)
+ON CONFLICT DO NOTHING;
+
+INSERT INTO public.customers (address, country, email, first_name, last_name, password, phone_number,
+                              username, city_id)
 VALUES ('Hausstrasse 2', 'CH', 'colleen.smith@testMail.com', 'Colleen', 'Smith', '1234', '+41 78 433 25 25',
         'CollenS', 1)
 ON CONFLICT DO NOTHING;
