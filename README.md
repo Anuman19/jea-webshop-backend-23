@@ -30,7 +30,10 @@ Stellen Sie sicher, dass die folgenden Komponenten auf Ihrem System installiert 
 
    ```
 
-3\. Starte die Datenbank mit Docker Compose:
+3\. Öffne das Projekt in deiner bevorzugten Java-IDE.
+
+
+4\. Starte die Datenbank mit Docker Compose:
 
    ```
 
@@ -40,28 +43,29 @@ Stellen Sie sicher, dass die folgenden Komponenten auf Ihrem System installiert 
 
    Dadurch wird ein Docker-Container für die Postgres-Datenbank erstellt und gestartet.
 
-4\. Öffne das Projekt in deiner bevorzugten Java-IDE.
+5\. Nachdem das Docker-Compose-File gestartet wurde, kann man auf Docker prüfen, ob das Datenbank-Image erfolgreich angelegt wurde. Danach kann man im Database-Toolfenster die Datenbank-Eigenschaften ansehen und ändern. Im Dialogfeld folgende Eigenschaften angeben, um auf die Datenbank zuzugreifen. Als Port Nummer wurde der Postgres-Standard Port 5432 verwendet. Zudem müssen noch die User- und Passwort-Angaben hinzugefügt werden.  (User und Passwort = postgres)
 
-5\. Konfiguration der Datenbankverbindung:
+
+6\. Konfiguration der Datenbankverbindung:
 
    - Öffne die Datei `src/main/resources/application.properties`.
 
    - Passe die Eigenschaften `spring.datasource.url`, `spring.datasource.username` und `spring.datasource.password` an, um die Verbindungsinformationen für deine Postgres-Datenbank anzugeben. Standardmäßig ist die URL auf `jdbc:postgresql://localhost:5432/postgres` eingestellt mit user = postgres und password = postgres.
 
 
-6\. Starte die Anwendung:
+7\. Starte die Anwendung:
 
    - Führe die `main`-Methode der Klasse `src/main/java/ch/ffhs/customer/customer/CustomerApplication` aus.
 
    - Die Spring Boot-Anwendung wird gestartet und bindet sich standardmäßig an den Port 8020/shop.
 
-7\. Starte die Anwendung:
+8\. Starte die Anwendung:
 
    - Führe die `main`-Methode der Klasse `src/main/java/ch/ffhs/admin/admin/AdminApplication` aus.
 
    - Die Spring Boot-Anwendung wird gestartet und bindet sich standardmäßig an den Port 8019/admin.
 
-8\. Überprüfe, ob die Backend-Anwendung erfolgreich gestartet wurde, indem du `http://localhost:8020/shop/swagger` in deinem Webbrowser aufrufst.
+9\. Überprüfe, ob die Backend-Anwendung erfolgreich gestartet wurde, indem du `http://localhost:8020/shop/swagger` in deinem Webbrowser aufrufst.
 
 ## Kundenanwendung
 
