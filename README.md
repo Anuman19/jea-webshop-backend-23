@@ -65,11 +65,15 @@ Stellen Sie sicher, dass die folgenden Komponenten auf Ihrem System installiert 
 
 8\. Starte die Anwendung:
 
+   - Führe die `main`-Methode der Klasse `src/main/java/ch/ffhs/library/library/LibraryApplication` aus.
+
+9\. Starte die Anwendung:
+
    - Führe die `main`-Methode der Klasse `src/main/java/ch/ffhs/admin/admin/AdminApplication` aus.
 
    - Die Spring Boot-Anwendung wird gestartet und bindet sich standardmäßig an den Port 8019/admin.
 
-9\. Überprüfe, ob die Backend-Anwendung erfolgreich gestartet wurde, indem du `http://localhost:8020/shop/swagger` in deinem Webbrowser aufrufst.
+10\. Überprüfe, ob die Backend-Anwendung erfolgreich gestartet wurde, indem du `http://localhost:8020/shop/swagger` in deinem Webbrowser aufrufst.
 
 ## Kundenanwendung
 
