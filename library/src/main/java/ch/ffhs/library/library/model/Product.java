@@ -1,15 +1,18 @@
 package ch.ffhs.library.library.model;
 
-import java.util.Collection;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data @NoArgsConstructor @AllArgsConstructor
+/**
+ * This class represents a product
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "products")
+@Table(name = "products", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
 
 public class Product {
     @Id
@@ -18,13 +21,14 @@ public class Product {
     private Long id;
     private String name;
     private String description;
-    private Double price;
-    //private Double star_rating;
-    //private String comments;
-    @Lob
-    @Column(columnDefinition = "BYTEA")
+    private double price;
+    private int currentQuantity;
     private String image;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Collection<Product> products;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
+    private Category category;
+    private int star_rating;
+    private boolean is_activated;
+
 
 }

@@ -1,101 +1,128 @@
 package ch.ffhs.admin.admin.controller;
 
 import ch.ffhs.library.library.dto.AdminDto;
+import ch.ffhs.library.library.dto.LoginDto;
 import ch.ffhs.library.library.model.Admin;
+import ch.ffhs.library.library.repository.AdminRepository;
 import ch.ffhs.library.library.service.impl.AdminServiceImpl;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
- * This controller is created to map incoming request URL
+ * LoginController is created to map incoming URL request related to the login
+ * and is responsible for displaying the appropriate views and processing user interaction to perform
+ * the desired actions (displaying pages, saving data and redirecting)
  */
-@Controller
+@RestController
 public class LoginController {
-    //is used to handle GET requests
 
+    // is used to encrypt passwords
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    // injects service for administrators' management
     @Autowired
     private AdminServiceImpl adminService;
-    @GetMapping("/login")//see AdminConfiguration ... loginPage
-    public String viewLoginPage(Model model){
-        //will be show in browser tab (<title> tag)
-        model.addAttribute("title", "Login");
-        //custom login before showing login page
-        return "login";
+
+    // injects admins repository
+    @Autowired
+    private AdminRepository adminRepository;
+
+    /**
+     * method is called when an HTTP POST request is sent to the /login URL
+     *
+     * @return ResponseEntity with user id and 200
+     */
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
+        Admin admin;
+        if (adminService.findByEmail(loginDto.getEmail()) == null) {
+            return new ResponseEntity<>("user not found", HttpStatus.CONFLICT);
+        } else {
+            admin = adminService.findByEmail(loginDto.getEmail());
+
+            if (admin.getPassword().equals(loginDto.getPassword())) {
+                return new ResponseEntity<>(admin.getId(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("password not matching", HttpStatus.FORBIDDEN);
+            }
+        }
     }
 
-    //used for the "Create Account" bottom on the login page
-    @GetMapping("/register")
-    public String register(Model model){
-        //will be show in browser tab (<title> tag)
-        model.addAttribute("title", "Register");
-        model.addAttribute("adminDto", new AdminDto());
-        return "register";
+    /**
+     * method is called when an HTTP POST request is sent to the /register URL
+     *
+     * @return ResponseEntity newly registered user and 201
+     */
+    @PostMapping("/register")
+    public ResponseEntity<Admin> register(@RequestBody AdminDto adminDto) {
+
+        adminService.save(adminDto);
+        return new ResponseEntity<>(adminService.save(adminDto), HttpStatus.CREATED);
     }
 
-    @RequestMapping("/index")
-    public String home(Model model){
-        //will be show in browser tab (<title> tag)
-        model.addAttribute("title", "Home Page");
-        return "index";
+    /**
+     * method is called when an HTTP GET request is sent to the /get-user/{id} URL
+     *
+     * @param id of user
+     * @return ResponseEntity user by id and 200
+     */
+    @GetMapping("/get-user/{id}")
+    public ResponseEntity<?> getUser(@PathVariable("id") Long id) {
+
+        if (adminRepository.findById(id).isPresent()) {
+            return new ResponseEntity<>(adminRepository.findById(id).get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("not found", HttpStatus.CONFLICT);
+        }
+
     }
 
-    //if the user can't remember his password, he will be redirected to another page where he can change his password
-    @GetMapping("/forgot-password")
-    public String forgotPassword(Model model){
-        //will be show in browser tab (<title> tag)
-        model.addAttribute("title", "Forgot Password");
-        return "forgot-password";
+    /**
+     * method is called when an HTTP GET request is sent to the /users URL
+     *
+     * @return ResponseEntity all users and 200
+     */
+    @GetMapping("/users")
+    public ResponseEntity<?> getAllUsers() {
+        return new ResponseEntity<>(adminRepository.findAll(), HttpStatus.OK);
     }
 
-    @PostMapping("/register-new")
-    private String addNewAdmin(@Valid @ModelAttribute("adminDto")AdminDto adminDto,
-                               BindingResult result,
-                               Model model){
+    /**
+     * method is called when an HTTP PUT request is sent to the /update-user/{id} URL
+     *
+     * @param id       of user
+     * @param adminDto with changes
+     * @return ResponseEntity updated user and 200
+     */
+    @PutMapping("/update-user/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable("id") Long id, @RequestBody AdminDto adminDto) {
+
+        if (adminRepository.findById(id).isPresent()) {
+            return new ResponseEntity<>(adminService.update(adminDto), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("not found", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * method is called when an HTTP DELETE request is sent
+     *
+     * @param id of user
+     * @return ResponseEntity updated user and 200
+     */
+    @DeleteMapping("/delete-user/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable("id") Long id) {
 
         try {
-            if (result.hasErrors()) {
-                model.addAttribute("adminDto", adminDto);
-                result.toString();
-                return "register";
-            }
-            String username = adminDto.getUsername();
-            Admin admin = adminService.findByUsername(username);
-            if (admin != null) {
-                model.addAttribute("adminDto", adminDto);
-                System.out.println("admin not null");
-                model.addAttribute("mailError", "Your email has been registered");
-                return "register";
-            }
-            if (adminDto.getPassword().equals(adminDto.getRepeatPassword())) {
-                adminDto.setPassword(passwordEncoder.encode(adminDto.getPassword()));
-                adminService.save(adminDto);
-                System.out.println("success");
-                model.addAttribute("success", "Register successfully");
-                model.addAttribute("adminDto", adminDto);
-            } else {
-                // if the repeated password isn't identical -> redirect to register page
-                model.addAttribute("passwordError", "Your password maybe wrong, please check again");
-                model.addAttribute("adminDto", adminDto);
-                System.out.println("password not same");
-                return "/register";
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            model.addAttribute("errors", "Something went wrong");
+            adminRepository.deleteById(id);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.toString(), HttpStatus.CONFLICT);
         }
-        return "register";
-
+        return new ResponseEntity<>("deleted", HttpStatus.OK);
     }
 }
