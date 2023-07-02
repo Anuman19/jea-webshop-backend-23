@@ -42,7 +42,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDto update(CategoryDto categoryDto) {
         try {
 
-            repository.getReferenceById(categoryDto.getCategoryId());
+            repository.getReferenceById(categoryDto.getId());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -70,10 +70,11 @@ public class CategoryServiceImpl implements CategoryService {
         return repository.findAllByActivated();
     }
 
-    /**@Override
-    public List<CategoryDto> getCategoryAndProduct() {
-        return repository.getCategoryAndProduct();
-    }**/
+    /**
+     * @Override public List<CategoryDto> getCategoryAndProduct() {
+     * return repository.getCategoryAndProduct();
+     * }
+     **/
 
     private CategoryDto mapperDto(Category category) {
         return new CategoryDto(category.getId(), category.getName(), category.isActivated());
@@ -82,8 +83,8 @@ public class CategoryServiceImpl implements CategoryService {
     private Category DtoMapper(CategoryDto categoryDto) {
 
         Category category = new Category();
-        category.setId(categoryDto.getCategoryId());
-        category.setName(categoryDto.getCategoryName());
+        category.setId(categoryDto.getId());
+        category.setName(categoryDto.getName());
         category.setActivated(categoryDto.isActivated());
 
         return category;

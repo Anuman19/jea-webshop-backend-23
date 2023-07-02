@@ -80,7 +80,7 @@ public class CategoryController {
     @PutMapping("/update-category/{id}")
     public ResponseEntity<?> updateCategory(@PathVariable("id") Long id, @RequestBody CategoryDto category) {
 
-        category.setCategoryId(id);
+        category.setId(id);
         try {
             return new ResponseEntity<>(categoryService.update(category), HttpStatus.CREATED);
         } catch (Exception e) {
