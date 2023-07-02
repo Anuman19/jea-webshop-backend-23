@@ -40,18 +40,18 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
 
-        try {
-            Customer customer = customerService.findCustomerByEmail(loginDto.getEmail());
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.toString(), HttpStatus.CONFLICT);
-        }
 
         Customer customer = customerService.findCustomerByEmail(loginDto.getEmail());
-        if (customer.getPassword().equals(loginDto.getPassword())) {
-            return new ResponseEntity<>(customer.getId(), HttpStatus.OK);
+        if (customer != null) {
+            if (customer.getPassword().equals(loginDto.getPassword())) {
+                return new ResponseEntity<>(customer.getId(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("password not matching", HttpStatus.FORBIDDEN);
+            }
         } else {
-            return new ResponseEntity<>("password not matching", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("user not found", HttpStatus.BAD_REQUEST);
         }
+
     }
 
     /**
