@@ -22,7 +22,7 @@ public class CustomerDto {
     @Size(min = 1, max = 50, message = "Last name should have 1-50 characters")
     private String username;
     private String email;
-    @Size(min = 8, max = 30, message = "Password should have 8-30 characters")
+    @Size(min = 4, max = 30, message = "Password should have 8-30 characters")
     private String password;
 
 }

@@ -12,7 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 
-
 /**
  * LoginController is created to map incoming URL request related to the login
  * and is responsible for displaying the appropriate views and processing user interaction to perform
@@ -59,8 +58,9 @@ public class LoginController {
      * @return ResponseEntity newly registered user and 201
      */
     @PostMapping("/register")
-    public ResponseEntity<Admin> register(AdminDto adminDto) {
+    public ResponseEntity<Admin> register(@RequestBody AdminDto adminDto) {
 
+        adminService.save(adminDto);
         return new ResponseEntity<>(adminService.save(adminDto), HttpStatus.CREATED);
     }
 

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -72,16 +73,6 @@ public class CustomerConfiguration {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        /**http.authorizeHttpRequests().requestMatchers("/*").
-         permitAll().requestMatchers("/customer/*").
-         hasAuthority("CUSTOMER").and().formLogin().loginPage("/login").
-         loginProcessingUrl("/do-login").
-         defaultSuccessUrl("/index").and().
-         logout().invalidateHttpSession(true).clearAuthentication(true).
-         logoutRequestMatcher(new AntPathRequestMatcher("/logout")).
-         logoutSuccessUrl("/login?logout").permitAll();**/
-
-        //todo swagger nicht redirect
 
         http.headers().frameOptions().sameOrigin();
         http.authenticationProvider(provider());
@@ -93,9 +84,9 @@ public class CustomerConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:9000"));
+        configuration.setAllowedOrigins(List.of("http://localhost:9000"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-        configuration.setAllowedHeaders(Arrays.asList("Content-Type"));
+        configuration.setAllowedHeaders(List.of("Content-Type"));
         configuration.setExposedHeaders(Arrays.asList("Content-Security-Policy", "Location"));
         configuration.setMaxAge(600L);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
