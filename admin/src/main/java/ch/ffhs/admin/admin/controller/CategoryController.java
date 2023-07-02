@@ -27,11 +27,10 @@ public class CategoryController {
     /**
      * method is called when an HTTP GET request is sent to the /categories URL
      *
-     * @return String with view's name "categories.html"
+     * @return ResponseEntity with categories and Http Status
      */
     @GetMapping("/categories")
     public ResponseEntity<List<Category>> categories() {
-
         return new ResponseEntity<>(categoryService.findAll(), HttpStatus.OK);
     }
 
@@ -48,8 +47,6 @@ public class CategoryController {
         } catch (Exception e) {
             return new ResponseEntity<>(e.toString(), HttpStatus.BAD_REQUEST);
         }
-
-
     }
 
     /**
@@ -75,7 +72,7 @@ public class CategoryController {
      *
      * @param id       of category
      * @param category DTO to update
-     * @return ResponseEntity updated category and 201
+     * @return ResponseEntity updated category and Http Status 201
      */
     @PutMapping("/update-category/{id}")
     public ResponseEntity<?> updateCategory(@PathVariable("id") Long id, @RequestBody CategoryDto category) {
@@ -93,7 +90,7 @@ public class CategoryController {
      * and deletes a category by its ID
      *
      * @param id of the category
-     * @return String "deleted" and 200
+     * @return ResponseEntity "deleted" and Http Status 200
      */
     @DeleteMapping("/delete-category/{id}")
     public ResponseEntity<?> deleteCategory(@PathVariable("id") Long id) {
