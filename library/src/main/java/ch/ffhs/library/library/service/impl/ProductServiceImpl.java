@@ -52,20 +52,25 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto update(ProductDto productDto) {
-        try {
-            Product product = productRepository.getReferenceById(productDto.getId());
 
-            product.setName(productDto.getName());
-            product.setDescription(productDto.getDescription());
-            product.setCategory(productDto.getCategory());
-            product.setPrice(productDto.getPrice());
-            product.setCurrentQuantity(productDto.getCurrentQuantity());
-            product.set_activated(true);
-            return mapperDTO(productRepository.save(product));
-        } catch (Exception e) {
-            e.printStackTrace();
+        try {
+            if (productRepository.findById(productDto.getId()).isPresent()) {
+
+                Product product = productRepository.findById(productDto.getId()).get();
+                product.setName(productDto.getName());
+                product.setDescription(productDto.getDescription());
+                product.setCategory(productDto.getCategory());
+                product.setPrice(productDto.getPrice());
+                product.setCurrentQuantity(productDto.getCurrentQuantity());
+                product.set_activated(true);
+                return mapperDTO(productRepository.save(product));
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
             return null;
         }
+
+        return null;
     }
 
     @Override
