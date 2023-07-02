@@ -1,6 +1,7 @@
 package ch.ffhs.admin.admin.controller;
 
 import ch.ffhs.library.library.dto.ProductDto;
+import ch.ffhs.library.library.repository.OrderItemRepository;
 import ch.ffhs.library.library.repository.ProductRepository;
 import ch.ffhs.library.library.service.CategoryService;
 import ch.ffhs.library.library.service.ProductService;
@@ -19,6 +20,9 @@ public class ProductController {
     // injects service for product management
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     // injects service for category management
     @Autowired
@@ -123,6 +127,7 @@ public class ProductController {
     public ResponseEntity<?> deleteProduct(@PathVariable("id") Long id) {
 
         try {
+            orderItemRepository.deleteAll(orderItemRepository.findAllByProductId(id));
             productRepository.deleteById(id);
         } catch (Exception e) {
             return new ResponseEntity<>(e.toString(), HttpStatus.CONFLICT);

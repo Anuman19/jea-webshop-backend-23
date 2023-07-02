@@ -2,9 +2,7 @@ package ch.ffhs.customer.controller;
 
 
 import ch.ffhs.library.library.dto.CheckoutItemDto;
-import ch.ffhs.library.library.dto.CustomerDto;
 import ch.ffhs.library.library.dto.StripeResponse;
-import ch.ffhs.library.library.model.Customer;
 import ch.ffhs.library.library.model.Order;
 import ch.ffhs.library.library.model.OrderItem;
 import ch.ffhs.library.library.repository.OrderItemRepository;
@@ -20,7 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -89,17 +86,5 @@ public class OrderController {
     }
 
 
-    // get orderitems for an order
-    /**
-     @GetMapping("/{id}") public ResponseEntity<Object> getOrderById(@PathVariable("id") Integer id, @RequestParam("user") Customer user) {
-
-     try {
-     Order order = orderService.getOrder(id);
-     return new ResponseEntity<>(order, HttpStatus.OK);
-     } catch (Exception e) {
-     return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-     }
-
-     }**/
 
 }
