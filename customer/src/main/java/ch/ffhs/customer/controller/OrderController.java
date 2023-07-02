@@ -41,6 +41,12 @@ public class OrderController {
     @Autowired
     private ProductService productService;
 
+    /**
+     * method is called when an HTTP POST request is sent to the /create-checkout-session URL
+     *
+     * @param checkoutItemDtoList list of ordered items
+     * @return ResponseEntity with stripe response (session id)
+     */
     @PostMapping("/create-checkout-session")
     public ResponseEntity<?> checkoutList(@RequestBody List<CheckoutItemDto> checkoutItemDtoList) throws StripeException {
 
@@ -54,7 +60,13 @@ public class OrderController {
 
     }
 
-    // place order after checkout
+    /**
+     * method is called when an HTTP POST request is sent to the /add URL
+     *
+     * @param sessionId from stripe
+     * @param checkoutItemDtoList list of ordered items
+     * @return ResponseEntity with string
+     */
     @PostMapping("/add")
     public ResponseEntity<String> placeOrder(@RequestParam("sessionId") String sessionId, @RequestBody() List<CheckoutItemDto> checkoutItemDtoList) {
         // place the order
@@ -70,7 +82,12 @@ public class OrderController {
         return new ResponseEntity<>("Order has been placed", HttpStatus.CREATED);
     }
 
-    // get all orders
+    /**
+     * method is called when an HTTP GET request is sent to the /{id} URL
+     *
+     * @param id of order
+     * @return ResponseEntity with order
+     */
     @GetMapping("/{id}")
     public ResponseEntity<List<Order>> getByUserId(@PathVariable("id") Long id) {
 
@@ -80,11 +97,15 @@ public class OrderController {
         return new ResponseEntity<>(orderDtoList, HttpStatus.OK);
     }
 
+    /**
+     * method is called when an HTTP GET request is sent to the /all URL
+     *
+     * @return ResponseEntity with list of order
+     */
     @GetMapping("/all")
     public ResponseEntity<?> getAllOrders() {
         return new ResponseEntity<>(orderItemRepository.findAll(), HttpStatus.OK);
     }
-
 
 
 }

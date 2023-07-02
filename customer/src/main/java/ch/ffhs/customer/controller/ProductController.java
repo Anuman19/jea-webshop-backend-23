@@ -1,6 +1,5 @@
 package ch.ffhs.customer.controller;
 
-import ch.ffhs.library.library.dto.ProductDto;
 import ch.ffhs.library.library.repository.OrderItemRepository;
 import ch.ffhs.library.library.repository.ProductRepository;
 import ch.ffhs.library.library.service.CategoryService;
@@ -8,7 +7,10 @@ import ch.ffhs.library.library.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * ProductController is created to map incoming URL request related to the products
