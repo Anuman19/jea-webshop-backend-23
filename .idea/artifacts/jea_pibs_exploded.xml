@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-ear" name="jea_pibs exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/jea_pibs_exploded</output-path>
+    <root id="root">
+      <element id="artifact" artifact-name="jea_pibs" />
+    </root>
+  </artifact>
+</component>

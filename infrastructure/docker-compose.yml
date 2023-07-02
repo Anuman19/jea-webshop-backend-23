@@ -1,0 +1,23 @@
+version: '3.7'
+services:
+  postgres:
+    # Official Postgres image from DockerHub
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    ports:
+      # By default, a Postgres database is running on the 5432 port
+      - '5432:5432'
+    volumes:
+      # You don't need to create the `db-data` folder, docker Compose will do it for you
+      # we share the folder `db-data` in our root repository, with the default PostgreSQL data path
+      - postgres-data:/var/lib/postgresql/data/
+      # copy the sql script to create tables
+      #- ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+volumes:
+  postgres-data:
