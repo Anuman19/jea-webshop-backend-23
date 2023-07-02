@@ -36,23 +36,6 @@ public class CategoryController {
     }
 
     /**
-     * method is called when an HTTP POST request is sent to the /add-category URL and will add a new category
-     *
-     * @param category object to save new category
-     * @return ResponseEntity newly created category and 201
-     */
-    @PostMapping("/add-category")
-    public ResponseEntity<?> addCategory(@RequestBody CategoryDto category) {
-        try {
-            return new ResponseEntity<>(categoryService.save(category), HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.toString(), HttpStatus.BAD_REQUEST);
-        }
-
-
-    }
-
-    /**
      * method is called when an HTTP  GET request is sent to the /categories/{id} URL
      * and is searching for a category by its ID
      *
@@ -70,39 +53,5 @@ public class CategoryController {
         }
     }
 
-    /**
-     * method is called when an HTTP GET request is sent to the /update-category URL
-     *
-     * @param id       of category
-     * @param category DTO to update
-     * @return ResponseEntity updated category and 201
-     */
-    @PutMapping("/update-category/{id}")
-    public ResponseEntity<?> updateCategory(@PathVariable("id") Long id, @RequestBody CategoryDto category) {
 
-        category.setId(id);
-        try {
-            return new ResponseEntity<>(categoryService.update(category), HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.toString(), HttpStatus.CONFLICT);
-        }
-    }
-
-    /**
-     * method is called when an HTTP PUT or GET request is sent to the /deleted-category URL
-     * and deletes a category by its ID
-     *
-     * @param id of the category
-     * @return String "deleted" and 200
-     */
-    @DeleteMapping("/delete-category/{id}")
-    public ResponseEntity<?> deleteCategory(@PathVariable("id") Long id) {
-
-        try {
-            categoryRepository.deleteById(id);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.toString(), HttpStatus.CONFLICT);
-        }
-        return new ResponseEntity<>("deleted", HttpStatus.OK);
-    }
 }

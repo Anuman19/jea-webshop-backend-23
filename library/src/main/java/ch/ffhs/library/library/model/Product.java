@@ -27,7 +27,7 @@ public class Product {
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private Category category;
-    private int star_rating; // not in tutorial
+    private int star_rating;
     private boolean is_activated;
 
 
