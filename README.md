@@ -109,10 +109,10 @@ Die Admin-Anwendung kann unter `http://localhost:8019/admin` aufgerufen werden. 
 
 ## Dokumentation
 
-  ```
-https://git.ffhs.ch/nicolas.dreier/jeafrontend.git
+    ```
+    https://git.ffhs.ch/nicolas.dreier/jeafrontend.git
 
-   ```
+    ```
 
 ## Weitere Informationen
 
