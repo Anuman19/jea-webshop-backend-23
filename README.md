@@ -43,7 +43,11 @@ Stellen Sie sicher, dass die folgenden Komponenten auf Ihrem System installiert 
 
    Dadurch wird ein Docker-Container für die Postgres-Datenbank erstellt und gestartet.
 
-5\. Nachdem das Docker-Compose-File gestartet wurde, kann man auf Docker prüfen, ob das Datenbank-Image erfolgreich angelegt wurde. Danach kann man im Database-Toolfenster die Datenbank-Eigenschaften ansehen und ändern. Im Dialogfeld folgende Eigenschaften angeben, um auf die Datenbank zuzugreifen. Als Port Nummer wurde der Postgres-Standard Port 5432 verwendet. Zudem müssen noch die User- und Passwort-Angaben hinzugefügt werden.  (User und Passwort = postgres)
+5\. Nachdem das Docker-Compose-File gestartet wurde, kann man auf Docker prüfen, ob das Datenbank-Image erfolgreich angelegt wurde.    
+
+    Danach kann man im Database-Toolfenster die Datenbank-Eigenschaften ansehen und ändern. Im Dialogfeld folgende Eigenschaften    
+    angeben, um auf die Datenbank zuzugreifen. Als Port Nummer wurde der Postgres-Standard Port 5432 verwendet. Zudem müssen noch die 
+    User- und Passwort-Angaben hinzugefügt werden.  (User und Passwort = postgres)
 
 
 6\. Konfiguration der Datenbankverbindung:
