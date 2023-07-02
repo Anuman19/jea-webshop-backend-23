@@ -1,6 +1,6 @@
 # Backend für Webshop
 
-Dies ist der Backend-Teil des Webshops, der mit Postgres, JPA, Spring Boot und Vue.js entwickelt wurde. Hier finden Sie eine kurze Anleitung zur Einrichtung und Verwendung des Backends.
+Dies ist der Backend-Teil des Webshops, der mit Postgres, Jakarta EE, Spring Boot entwickelt wurde. Hier finden Sie eine kurze Anleitung zur Einrichtung und Verwendung des Backends.
 
 ## Voraussetzungen
 
