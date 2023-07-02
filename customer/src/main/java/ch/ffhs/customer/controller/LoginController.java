@@ -60,7 +60,7 @@ public class LoginController {
      * @return ResponseEntity newly registered user and 201
      */
     @PostMapping("/register")
-    public ResponseEntity<CustomerDto> register(CustomerDto customerDto) {
+    public ResponseEntity<Customer> register(@RequestBody CustomerDto customerDto) {
 
         return new ResponseEntity<>(customerService.save(customerDto), HttpStatus.CREATED);
     }

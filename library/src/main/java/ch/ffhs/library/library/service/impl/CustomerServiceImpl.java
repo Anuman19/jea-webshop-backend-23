@@ -1,18 +1,14 @@
 package ch.ffhs.library.library.service.impl;
 
-import ch.ffhs.library.library.dto.AdminDto;
 import ch.ffhs.library.library.dto.CustomerDto;
-import ch.ffhs.library.library.model.Admin;
 import ch.ffhs.library.library.model.Customer;
 import ch.ffhs.library.library.model.Role;
 import ch.ffhs.library.library.repository.CustomerRepository;
-import ch.ffhs.library.library.repository.RoleRepository;
 import ch.ffhs.library.library.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -27,16 +23,17 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerRepository customerRepository;
 
     @Override
-    public CustomerDto save(CustomerDto customerDto) {
+    public Customer save(CustomerDto customerDto) {
         try {
             Customer customer = new Customer();
             customer.setFirstName(customerDto.getFirstName());
             customer.setLastName(customerDto.getLastName());
+            customer.setUsername(customerDto.getUsername());
+            customer.setEmail(customerDto.getEmail());
             customer.setPassword(customerDto.getPassword());
             List<Role> roleList = new ArrayList<>();
             roleList.add(roleRepository.findRoleById(2L));
-
-            return mapperDTO(customerRepository.save(customer));
+            return customerRepository.save(customer);
 
         } catch (Exception e) {
             e.printStackTrace();
