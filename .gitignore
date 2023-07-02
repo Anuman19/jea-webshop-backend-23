@@ -12,6 +12,8 @@ target/
 *.iml
 *.ipr
 
+.idea/sonarlint/issuestore/**
+
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
