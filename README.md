@@ -107,6 +107,12 @@ Die Admin-Anwendung kann unter `http://localhost:8019/admin` aufgerufen werden. 
 
 - `DELETE /delete-category/{id}`: Lösche ein Kategory.
 
+## Dokumentation
+
+  ```
+https://git.ffhs.ch/nicolas.dreier/jeafrontend.git
+
+   ```
 
 ## Weitere Informationen
 
