@@ -6,9 +6,9 @@ Dies ist der Backend-Teil des Webshops, der mit Postgres, Jakarta EE, Spring Boo
 
 Stellen Sie sicher, dass die folgenden Komponenten auf Ihrem System installiert sind:
 
-- Docker
+- Intellij IDE (oder ähnliches)
 
-- Docker Compose
+- Docker
 
 - Java Development Kit (JDK) 8 oder höher
 
