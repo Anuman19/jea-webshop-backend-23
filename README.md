@@ -34,7 +34,7 @@ Stellen Sie sicher, dass die folgenden Komponenten auf Ihrem System installiert 
 
    ```
 
-   docker-compose up -d
+   /infrastructure/docker-compose.yml
 
    ```
 
@@ -46,7 +46,7 @@ Stellen Sie sicher, dass die folgenden Komponenten auf Ihrem System installiert 
 
    - Öffne die Datei `src/main/resources/application.properties`.
 
-   - Passe die Eigenschaften `spring.datasource.url`, `spring.datasource.username` und `spring.datasource.password` an, um die Verbindungsinformationen für deine Postgres-Datenbank anzugeben. Standardmäßig ist die URL auf `jdbc:postgresql://localhost:5432/postgres` eingestellt.
+   - Passe die Eigenschaften `spring.datasource.url`, `spring.datasource.username` und `spring.datasource.password` an, um die Verbindungsinformationen für deine Postgres-Datenbank anzugeben. Standardmäßig ist die URL auf `jdbc:postgresql://localhost:5432/postgres` eingestellt mit user = postgres und password = postgres.
 
 
 6\. Starte die Anwendung:
