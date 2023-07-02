@@ -16,11 +16,10 @@ Stellen Sie sicher, dass die folgenden Komponenten auf Ihrem System installiert 
 
 1\. Klone das Repository auf deinen lokalen Computer:
 
-   ```
 
    git clone https://git.ffhs.ch/nina.aegerter/jea_semesterprojekt_gruppea.git
 
-   ```
+  
 
 2\. Navigiere in das Verzeichnis des Backend-Teils:
 
