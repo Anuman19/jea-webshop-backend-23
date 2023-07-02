@@ -21,6 +21,7 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    // injects repository of categories
     @Autowired
     private CategoryRepository categoryRepository;
 

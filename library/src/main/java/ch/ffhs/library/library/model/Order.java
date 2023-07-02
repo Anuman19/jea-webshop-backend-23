@@ -6,6 +6,9 @@ import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * This class represents an order
+ */
 @Entity
 @Table(name = "orders")
 public class Order {

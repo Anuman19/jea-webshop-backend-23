@@ -21,6 +21,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    // injects  OrderItemRepository
     @Autowired
     private OrderItemRepository orderItemRepository;
 
@@ -28,6 +29,7 @@ public class ProductController {
     @Autowired
     private CategoryService categoryService;
 
+    // injects ProductRepository
     @Autowired
     private ProductRepository productRepository;
 
@@ -46,16 +48,14 @@ public class ProductController {
      * method is called when an HTTP GET request is sent to the /find-products/{id} URL
      *
      * @param id of the product
-     * @return ResponseEntity product by id and 200
+     * @return ResponseEntity product by id and 409
      */
     @GetMapping("/products/{id}")
     public ResponseEntity<?> findProductById(@PathVariable("id") Long id) {
-
         try {
             return new ResponseEntity<>(productService.getById(id), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.toString(), HttpStatus.CONFLICT);
-
         }
     }
 
@@ -63,7 +63,7 @@ public class ProductController {
      * method is called when an HTTP GET request is sent to the /products-in-category/{id} URL
      *
      * @param categoryId for the category
-     * @return ResponseEntity products in a category and 200
+     * @return ResponseEntity products in a category and 409
      */
     @GetMapping("/products-in-category/{id}")
     public ResponseEntity<?> getProductsInCategory(@PathVariable("id") Long categoryId) {
@@ -80,7 +80,7 @@ public class ProductController {
      * method is called when an HTTP POST request is sent to the /add-product URL
      *
      * @param product DTO
-     * @return ResponseEntity new product DTO and 201
+     * @return ResponseEntity new product DTO and 409
      */
     @PostMapping("/add-product")
     public ResponseEntity<?> saveProduct(@RequestBody ProductDto product) {
@@ -90,7 +90,6 @@ public class ProductController {
 
         } catch (Exception e) {
             return new ResponseEntity<>(e.toString(), HttpStatus.CONFLICT);
-
         }
     }
 
@@ -113,7 +112,6 @@ public class ProductController {
         } catch (Exception e) {
             return new ResponseEntity<>(e.toString(), HttpStatus.CONFLICT);
         }
-
     }
 
     /**
@@ -121,7 +119,7 @@ public class ProductController {
      * and loads the form for updating an existing product
      *
      * @param id of product
-     * @return ResponseEntity with String "deleted" and 201
+     * @return ResponseEntity with String "deleted" and 200
      */
     @DeleteMapping("/delete-product/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable("id") Long id) {

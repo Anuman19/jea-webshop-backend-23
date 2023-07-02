@@ -1,6 +1,5 @@
 package ch.ffhs.customer.controller;
 
-import ch.ffhs.library.library.dto.CategoryDto;
 import ch.ffhs.library.library.model.Category;
 import ch.ffhs.library.library.repository.CategoryRepository;
 import ch.ffhs.library.library.service.CategoryService;
@@ -21,17 +20,17 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    // injects CategoryRepository
     @Autowired
     private CategoryRepository categoryRepository;
 
     /**
      * method is called when an HTTP GET request is sent to the /categories URL
      *
-     * @return String with view's name "categories.html"
+     * @return ResponseEntity with categories and 200
      */
     @GetMapping("/categories")
     public ResponseEntity<List<Category>> categories() {
-
         return new ResponseEntity<>(categoryService.findAll(), HttpStatus.OK);
     }
 
@@ -40,7 +39,7 @@ public class CategoryController {
      * and is searching for a category by its ID
      *
      * @param id of the category
-     * @return ResponseEntity with category by id and 200
+     * @return ResponseEntity with category by id and Http Status
      */
     @GetMapping("/categories/{id}")
     public ResponseEntity<?> findCategoryById(@PathVariable("id") Long id) {
@@ -49,9 +48,6 @@ public class CategoryController {
             return new ResponseEntity<>(categoryService.findById(id), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.toString(), HttpStatus.CONFLICT);
-
         }
     }
-
-
 }

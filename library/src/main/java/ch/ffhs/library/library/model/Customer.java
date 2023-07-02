@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Collection;
-import java.util.List;
+
 /**
  * This class represents a customer
  */

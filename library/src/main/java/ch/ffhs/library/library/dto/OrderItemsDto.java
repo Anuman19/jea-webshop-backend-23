@@ -2,6 +2,10 @@ package ch.ffhs.library.library.dto;
 
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * This class is a data transfer object that is used in Spring-based applications
+ * to transfer data between the frontend and the backend
+ */
 public class OrderItemsDto {
 
     private @NotNull double price;

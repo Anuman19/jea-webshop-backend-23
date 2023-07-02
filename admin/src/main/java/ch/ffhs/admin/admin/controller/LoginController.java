@@ -28,8 +28,9 @@ public class LoginController {
     @Autowired
     private AdminServiceImpl adminService;
 
+    // injects admins repository
     @Autowired
-    AdminRepository adminRepository;
+    private AdminRepository adminRepository;
 
     /**
      * method is called when an HTTP POST request is sent to the /login URL
@@ -108,6 +109,12 @@ public class LoginController {
         }
     }
 
+    /**
+     * method is called when an HTTP DELETE request is sent
+     *
+     * @param id of user
+     * @return ResponseEntity updated user and 200
+     */
     @DeleteMapping("/delete-user/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable("id") Long id) {
 
@@ -118,5 +125,4 @@ public class LoginController {
         }
         return new ResponseEntity<>("deleted", HttpStatus.OK);
     }
-
 }

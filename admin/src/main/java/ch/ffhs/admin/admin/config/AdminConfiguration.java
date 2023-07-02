@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -66,7 +65,6 @@ public class AdminConfiguration {
      * @param http HttpSecurity parameter
      * @return DaoAuthenticationProvider object
      */
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -77,6 +75,10 @@ public class AdminConfiguration {
         return http.build();
     }
 
+    /**
+     * method defines Bean configuration for CORS (Cross-Origin Resource Sharing)
+     * @return UrlBasedCorsConfigurationSource instance as Bean
+     */
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

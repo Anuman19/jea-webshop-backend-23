@@ -1,6 +1,9 @@
 package ch.ffhs.library.library.dto;
 
-
+/**
+ * This class is a data transfer object that is used in Spring-based applications
+ * to transfer data between the frontend and the backend
+ */
 public class StripeResponse {
     private String sessionId;
 
