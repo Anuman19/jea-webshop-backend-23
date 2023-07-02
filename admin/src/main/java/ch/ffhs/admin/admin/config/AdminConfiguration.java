@@ -69,9 +69,7 @@ public class AdminConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        /** http.authorizeHttpRequests().requestMatchers("/*").permitAll()
-         .requestMatchers("/admin/*").hasAuthority("ADMIN").and().formLogin().loginPage("/login").loginProcessingUrl("/do-login").defaultSuccessUrl("/index").failureForwardUrl("/login?error").permitAll().and().logout().invalidateHttpSession(true).clearAuthentication(true).logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout").permitAll();
-         **/
+
         http.headers().frameOptions().sameOrigin();
         http.authenticationProvider(daoAuthenticationProvider());
         http.csrf((csrf) -> csrf.disable());

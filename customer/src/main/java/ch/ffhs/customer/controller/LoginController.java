@@ -39,12 +39,14 @@ public class LoginController {
      */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
-        Customer customer;
+
         try {
-            customer = customerService.findCustomerByEmail(loginDto.getEmail());
+            Customer customer = customerService.findCustomerByEmail(loginDto.getEmail());
         } catch (Exception e) {
             return new ResponseEntity<>(e.toString(), HttpStatus.CONFLICT);
         }
+
+        Customer customer = customerService.findCustomerByEmail(loginDto.getEmail());
         if (customer.getPassword().equals(loginDto.getPassword())) {
             return new ResponseEntity<>(customer.getId(), HttpStatus.OK);
         } else {

@@ -1,8 +1,6 @@
 package ch.ffhs.library.library.service.impl;
 
 import ch.ffhs.library.library.dto.CheckoutItemDto;
-import ch.ffhs.library.library.dto.CustomerDto;
-import ch.ffhs.library.library.model.Customer;
 import ch.ffhs.library.library.model.Order;
 import ch.ffhs.library.library.repository.OrderItemRepository;
 import ch.ffhs.library.library.repository.OrderRepository;
@@ -10,14 +8,14 @@ import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -91,19 +89,6 @@ public class OrderService {
         newOrder.setTotalPrice(checkoutItemDto.getPrice());
         return orderRepository.save(newOrder);
 
-        /**for (CartItemDto cartItemDto : cartItemDtoList) {
-         // create orderItem and save each one
-         OrderItem orderItem = new OrderItem();
-         orderItem.setCreatedDate(new Date());
-         orderItem.setPrice(cartItemDto.getProduct().getPrice());
-         orderItem.setProduct(cartItemDto.getProduct());
-         orderItem.setQuantity(cartItemDto.getQuantity());
-         orderItem.setOrder(newOrder);
-         // add to order item list
-         orderItemsRepository.save(orderItem);
-         }
-         //
-         cartService.deleteUserCartItems(user);**/
     }
 
     public List<Order> listOrders(Long id) {
