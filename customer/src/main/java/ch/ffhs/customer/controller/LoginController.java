@@ -107,5 +107,14 @@ public class LoginController {
         }
     }
 
+    @DeleteMapping("/delete-user/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable("id") Long id) {
 
+        try {
+            customerRepository.deleteById(id);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.toString(), HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>("deleted", HttpStatus.OK);
+    }
 }

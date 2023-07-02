@@ -41,7 +41,6 @@ public class AdminServiceImpl implements AdminService {
         admin.setPassword(adminDto.getPassword());
         List<Role> roleList = new ArrayList<>();
         roleList.add(roleRepository.findRoleById(1L));
-        System.out.println(roleList);
         admin.setRoles(roleList);
         return adminRepository.save(admin);
     }

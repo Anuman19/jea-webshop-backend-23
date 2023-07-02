@@ -49,15 +49,16 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
         Admin admin;
-        try {
-            admin = adminService.findByEmail(loginDto.getEmail());
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.toString(), HttpStatus.CONFLICT);
-        }
-        if (admin.getPassword().equals(loginDto.getPassword())) {
-            return new ResponseEntity<>(admin.getId(), HttpStatus.OK);
+        if (adminService.findByEmail(loginDto.getEmail()) == null) {
+            return new ResponseEntity<>("user not found", HttpStatus.CONFLICT);
         } else {
-            return new ResponseEntity<>("password not matching", HttpStatus.FORBIDDEN);
+            admin = adminService.findByEmail(loginDto.getEmail());
+
+            if (admin.getPassword().equals(loginDto.getPassword())) {
+                return new ResponseEntity<>(admin.getId(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("password not matching", HttpStatus.FORBIDDEN);
+            }
         }
     }
 
@@ -114,6 +115,17 @@ public class LoginController {
         } else {
             return new ResponseEntity<>("not found", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @DeleteMapping("/delete-user/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable("id") Long id) {
+
+        try {
+            adminRepository.deleteById(id);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.toString(), HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>("deleted", HttpStatus.OK);
     }
 
 }
