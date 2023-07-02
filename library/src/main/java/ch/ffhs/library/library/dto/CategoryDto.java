@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 
 public class CategoryDto {
-    private Long categoryId;
-    private String categoryName;
+    private Long id;
+    private String name;
     private boolean activated;
 }
