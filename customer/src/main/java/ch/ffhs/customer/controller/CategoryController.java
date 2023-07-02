@@ -1,13 +1,14 @@
 package ch.ffhs.customer.controller;
 
-import ch.ffhs.library.library.dto.CategoryDto;
 import ch.ffhs.library.library.model.Category;
 import ch.ffhs.library.library.repository.CategoryRepository;
 import ch.ffhs.library.library.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -16,8 +17,7 @@ import java.util.List;
  */
 @RestController
 public class CategoryController {
-    // this annotation injects the CategoryService which allows the controller
-    // to access the service to execute business logic related to categories
+
     @Autowired
     private CategoryService categoryService;
 
